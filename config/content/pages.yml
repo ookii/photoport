@@ -1,0 +1,102 @@
+# PhotoPort Gallery Configuration
+# This file defines the gallery pages and their display settings
+
+# Gallery definitions - each entry creates a browsable gallery page
+galleries:
+  # Responsive gallery type - images adapt to screen size and maintain aspect ratio
+  - slug: "responsive"                                    # URL slug (e.g., /galleries/responsive)
+    title: "Responsive"                                   # Display title for the gallery
+    dir: "galleries/responsive"                           # Directory containing gallery images
+    extensions: [".jpg", ".jpeg", ".png", ".webp"]       # Supported image file extensions
+    gallery_type: "responsive"                            # Gallery display type
+    
+  # Grid gallery type - images displayed in a structured grid layout
+  - slug: "grid"                                          # URL slug (e.g., /galleries/grid)
+    title: "Grid"                                         # Display title for the gallery
+    dir: "galleries/grid"                                 # Directory containing gallery images
+    extensions: [".jpg", ".jpeg", ".png", ".webp"]       # Supported image file extensions
+    gallery_type: "grid"                                  # Gallery display type
+    grid_config:                                          # Grid-specific configuration
+      columns: 3                                          # Number of columns in grid
+      spacing: "0.75rem"                                  # Space between grid items
+      random: false                                       # Whether to randomize image order
+      
+  # Image slider gallery type - single images with navigation controls
+  - slug: "slider"                                        # URL slug (e.g., /galleries/slider)
+    title: "Slider"                                       # Display title for the gallery
+    dir: "galleries/slider"                               # Directory containing gallery images
+    extensions: [".jpg", ".jpeg", ".png", ".webp"]       # Supported image file extensions
+    gallery_type: "image-slider"                          # Gallery display type (note: uses hyphen)
+    fullscreen_enabled: true                              # Enable fullscreen mode for images
+    responsive_config:                                    # Responsive display configuration
+      spacing: "1rem"                                     # Space around images
+      min_height: "500px"                                 # Minimum height for image container
+      random: false                                       # Whether to randomize image order
+
+# Custom Pages Configuration
+pages:
+  - slug: "about"
+    title: "About Me"
+    file: "pages/about.md"
+
+# Gallery Configuration Notes:
+#
+# Required Fields:
+# - slug: URL-friendly identifier (letters, numbers, hyphens only)
+# - title: Human-readable gallery name
+# - dir: Path to gallery directory relative to project root
+# - extensions: Array of supported image file types
+# - gallery_type: Display type ("responsive", "grid", "image-slider")
+#
+# Gallery Types:
+# 
+# 1. "responsive" - Images scale to fit viewport, maintain aspect ratio
+#    - Best for mixed image sizes and mobile viewing
+#    - No additional configuration required
+#    - fullscreen_enabled: ignored (not applicable)
+#
+# 2. "grid" - Fixed grid layout with equal-sized cells
+#    - Best for uniform image presentation
+#    - Supports grid_config section
+#    - fullscreen_enabled: ignored (not applicable)
+#
+# 3. "image-slider" - Single image display with navigation
+#    - Best for focused viewing experience
+#    - Supports fullscreen_enabled option
+#    - Can use responsive_config for additional styling
+#
+# Optional Configuration Sections:
+#
+# grid_config: (grid galleries only)
+#   columns: 1-6              # Number of columns (default: 3)
+#   spacing: "0.5rem-2rem"    # CSS spacing value (default: "0.75rem")
+#   random: true/false        # Randomize image order (default: false)
+#
+# responsive_config: (all gallery types)
+#   spacing: "0.5rem-2rem"    # CSS spacing value (default: "1rem")
+#   min_height: "300px-800px" # CSS height value (default: "500px")
+#   random: true/false        # Randomize image order (default: false)
+#
+# fullscreen_enabled: true/false (image-slider only)
+#   - Adds click-to-fullscreen functionality
+#   - Requires JavaScript to be enabled
+#   - Automatically adds appropriate CSS classes
+#   - Default: false
+#
+# Image File Requirements:
+# - Place images in the specified directory
+# - Use supported extensions only
+# - Recommended: optimize images for web (compress, resize appropriately)
+# - Images are automatically sorted alphabetically by filename
+#
+# Setting a Default Gallery for Home Page:
+# To display a gallery on the home page, configure the site_default_gallery
+# setting in config/content/styling.yml:
+#
+# site_default_gallery: "gallery-slug"
+#
+# Example: site_default_gallery: "japan"
+# - The slug must match one defined in this pages.yml file
+# - The home page will display this gallery using its configured gallery_type
+# - If fullscreen_enabled: true, home page images will also be clickable
+# - If no default is set or gallery not found, home page shows placeholder text

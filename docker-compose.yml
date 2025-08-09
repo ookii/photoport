@@ -1,0 +1,38 @@
+services:
+  photoport:
+    image: photoport:1.0
+    build: .
+    # Ports configuration
+    # Change "3000:3000" to "8080:3000" to access gallery at http://localhost:8080
+    # Format is "host_port:container_port"
+    ports:
+      - "3000:3000"
+    # Volumes configuration  
+    # Current setup uses Docker-managed volumes for data persistence
+    # To use local directories instead, replace with bind mounts like:
+    #   - ./galleries:/app/galleries
+    #   - ./config:/app/config/content
+    #   - ./logs:/app/log
+    # Then remove the "volumes:" section at the bottom of this file
+    volumes:
+      - photoport_galleries:/app/galleries
+      - photoport_config:/app/config/content
+      - photoport_pages:/app/pages
+      - photoport_logs:/app/log
+    environment:
+      # In production mode, container restarts are required to pick up configuration file changes
+      - RAILS_ENV=development
+      - RAILS_SERVE_STATIC_FILES=true
+      - RAILS_LOG_TO_STDOUT=true
+    restart: unless-stopped
+
+# Docker-managed volumes (remove this section if using bind mounts above)
+volumes:
+  photoport_galleries:
+    driver: local
+  photoport_config:
+    driver: local
+  photoport_pages:
+    driver: local
+  photoport_logs:
+    driver: local

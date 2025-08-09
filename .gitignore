@@ -1,0 +1,18 @@
+/tmp/
+/log/
+/*.log
+**/tmp/cache/bootsnap/
+/.claude/
+/galleries/*
+/*.png
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+package-lock.json
+package.json
+playwright.config.ts
+/tests/

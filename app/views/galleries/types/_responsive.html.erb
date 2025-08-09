@@ -1,0 +1,386 @@
+<div class="responsive-gallery">
+  <!-- Gallery Header -->
+  <div class="content-wrapper">
+    <div class="gallery-header">
+      <h1 class="text-3xl dynamic-text font-bold mb-2"><%= render_data[:gallery].title %></h1>
+    </div>
+  </div>
+
+  <!-- Responsive Container -->
+  <div class="content-wrapper responsive-content">
+    <div class="responsive-container" 
+         style="--responsive-spacing: <%= render_data[:spacing] %>;"
+         data-min-height="<%= render_data[:min_height] %>"
+         data-spacing="<%= render_data[:spacing] %>">
+      
+      <!-- Skeleton placeholders - shown while images load -->
+      <div class="skeleton-container" id="skeleton-container">
+        <% render_data[:images].each_with_index do |image, index| %>
+          <div class="skeleton-item" data-skeleton-index="<%= index %>">
+            <div class="skeleton-placeholder"></div>
+          </div>
+        <% end %>
+      </div>
+      
+      <!-- Images will be dynamically arranged into rows by JavaScript (initially hidden) -->
+      <div class="images-container" id="images-container" style="display: none;">
+        <% render_data[:images].each_with_index do |image, index| %>
+          <img src="<%= cdn_image_url(image[:url_path]) %>" 
+               alt="<%= render_data[:gallery].title %> - Image <%= index + 1 %>"
+               class="responsive-image"
+               data-index="<%= index %>"
+               loading="eager">
+        <% end %>
+      </div>
+      
+    </div>
+    
+    <% if render_data[:images].empty? %>
+      <div class="text-center py-16">
+        <p class="dynamic-secondary-text">No images found in this gallery.</p>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const container = document.querySelector('.responsive-container');
+  if (!container) return;
+  
+  // Simple check - if we already have arranged images, don't run again
+  if (container.querySelector('.responsive-row')) return;
+  
+  // Preload visible images immediately
+  function preloadVisibleImages() {
+    const imagesContainer = document.getElementById('images-container');
+    if (!imagesContainer) return;
+    
+    const originalImages = Array.from(imagesContainer.querySelectorAll('.responsive-image[data-index]'));
+    
+    // Preload first 3-4 images that are likely to be visible initially
+    const imagesToPreload = Math.min(4, originalImages.length);
+    
+    for (let i = 0; i < imagesToPreload; i++) {
+      const img = originalImages[i];
+      if (img && img.src) {
+        const preloadImg = new Image();
+        preloadImg.src = img.src;
+      }
+    }
+  }
+  
+  // Run preload immediately
+  preloadVisibleImages();
+  
+  function arrangeResponsiveGallery() {
+    const container = document.querySelector('.responsive-container');
+    if (!container) return;
+    
+    // Don't rearrange if already processing or if we have rows already
+    if (container.dataset.processing === 'true' || container.querySelector('.responsive-row')) {
+      return;
+    }
+    
+    container.dataset.processing = 'true';
+    
+    const imagesContainer = document.getElementById('images-container');
+    if (!imagesContainer) {
+      container.dataset.processing = 'false';
+      return;
+    }
+    
+    const originalImages = Array.from(imagesContainer.querySelectorAll('.responsive-image[data-index]'));
+    if (originalImages.length === 0) {
+      container.dataset.processing = 'false';
+      return;
+    }
+    
+    // Get configuration
+    const minHeightStr = container.dataset.minHeight || '500px';
+    const minHeight = parseInt(minHeightStr);
+    const spacing = 16; // 1rem = 16px
+    
+    // More thorough cleanup - remove all dynamically created elements
+    container.querySelectorAll('.responsive-row, .mobile-row').forEach(row => row.remove());
+    
+    // Reset skeleton container visibility if it exists
+    const skeletonContainer = document.getElementById('skeleton-container');
+    if (skeletonContainer) {
+      skeletonContainer.style.display = 'block';
+      skeletonContainer.style.opacity = '1';
+    }
+    
+    // Reset images container and show original images
+    // (imagesContainer already declared above)
+    if (imagesContainer) {
+      imagesContainer.style.display = 'none';
+    }
+    
+    // Keep original images hidden during processing
+    originalImages.forEach(img => {
+      img.style.display = 'none';
+      // Clear any inline styles that might have been added
+      img.style.width = '';
+      img.style.height = '';
+      img.style.objectFit = '';
+    });
+    
+    // Wait for all images to load
+    let loadedCount = 0;
+    const imageData = [];
+    let layoutBuilt = false;
+    
+    function checkAllLoaded() {
+      if (loadedCount === originalImages.length && !layoutBuilt) {
+        layoutBuilt = true;
+        // Hide skeleton and show arranged gallery
+        // (skeletonContainer and imagesContainer already declared above)
+        
+        // Check if we're on mobile (viewport width < 768px)
+        const isMobile = window.innerWidth < 768;
+        
+        if (isMobile) {
+          buildMobileLayout();
+        } else {
+          buildRows();
+        }
+        
+        // Smooth transition from skeleton to real content
+        if (skeletonContainer) {
+          skeletonContainer.style.opacity = '0';
+          setTimeout(() => {
+            skeletonContainer.style.display = 'none';
+          }, 300);
+        }
+        // Note: imagesContainer stays hidden - images are rearranged into new row elements
+        
+        // Mark arrangement as complete
+        container.dataset.processing = 'false';
+      }
+    }
+    
+    // Robust image loading detection
+    function handleImageLoad(img, index) {
+      if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+        imageData[index] = {
+          ratio: img.naturalWidth / img.naturalHeight,
+          element: img
+        };
+        loadedCount++;
+        checkAllLoaded();
+        return true;
+      }
+      return false;
+    }
+
+    originalImages.forEach((img, index) => {
+      // Check if already loaded
+      if (handleImageLoad(img, index)) {
+        return; // Already loaded
+      }
+      
+      // Clear any existing event handlers to prevent duplicates
+      img.onload = null;
+      img.onerror = null;
+      
+      // Set up event handlers
+      const onLoad = function() {
+        handleImageLoad(img, index);
+        // Clear handlers after use
+        img.onload = null;
+        img.onerror = null;
+      };
+      
+      const onError = function() {
+        // Still count as "loaded" to prevent hanging, use fallback ratio
+        imageData[index] = {
+          ratio: 4/3, // reasonable fallback aspect ratio
+          element: img
+        };
+        loadedCount++;
+        checkAllLoaded();
+        // Clear handlers after use
+        img.onload = null;
+        img.onerror = null;
+      };
+      
+      img.onload = onLoad;
+      img.onerror = onError;
+      
+      // Double-check after setting handlers (in case image loaded between checks)
+      setTimeout(() => {
+        if (!imageData[index]) {
+          handleImageLoad(img, index);
+        }
+      }, 100);
+    });
+    
+    checkAllLoaded();
+    
+    function buildMobileLayout() {
+      // For mobile, use 95% of viewport width and single column
+      const viewportWidth = window.innerWidth;
+      const containerWidth = viewportWidth * 0.95;
+      
+      // Set container width
+      container.style.width = containerWidth + 'px';
+      
+      // Create single column layout
+      imageData.forEach((imgData) => {
+        // Calculate width to fit container, maintaining aspect ratio
+        const maxImageWidth = containerWidth - (spacing * 2); // Account for padding
+        const imageHeight = maxImageWidth / imgData.ratio;
+        
+        // Create row element for single image with fade-in effect
+        const rowElement = document.createElement('div');
+        rowElement.className = 'responsive-row mobile-row';
+        rowElement.style.display = 'flex';
+        rowElement.style.justifyContent = 'center';
+        rowElement.style.marginBottom = spacing + 'px';
+        rowElement.style.width = containerWidth + 'px';
+        rowElement.style.opacity = '0';
+        rowElement.style.transition = 'opacity 0.3s ease';
+        
+        // Create item element
+        const itemElement = document.createElement('div');
+        itemElement.className = 'responsive-item';
+        itemElement.style.display = 'flex';
+        itemElement.style.alignItems = 'center';
+        itemElement.style.justifyContent = 'center';
+        itemElement.style.width = maxImageWidth + 'px';
+        itemElement.style.height = imageHeight + 'px';
+        
+        // Create image element
+        const img = document.createElement('img');
+        img.src = imgData.element.src;
+        img.alt = imgData.element.alt;
+        img.className = 'responsive-image mobile-image';
+        img.style.height = imageHeight + 'px';
+        img.style.width = maxImageWidth + 'px';
+        img.style.objectFit = 'contain';
+        img.loading = 'lazy';
+        
+        itemElement.appendChild(img);
+        rowElement.appendChild(itemElement);
+        container.appendChild(rowElement);
+        
+        // Trigger fade-in after a brief delay
+        setTimeout(() => {
+          rowElement.style.opacity = '1';
+        }, 50);
+      });
+      
+      // Hide original images
+      originalImages.forEach(img => {
+        img.style.display = 'none';
+      });
+    }
+    
+    function buildRows() {
+      // Calculate container width based on viewport (90% of window width)
+      const viewportWidth = window.innerWidth;
+      const containerWidth = viewportWidth * 0.9;
+      
+      // Set fixed container width to prevent compression
+      container.style.width = containerWidth + 'px';
+      
+      let currentIndex = 0;
+      
+      while (currentIndex < imageData.length) {
+        let bestRow = [imageData[currentIndex]]; // Start with at least one image
+        
+        // Try to add more consecutive images (greedy approach)
+        for (let count = 2; count <= Math.min(6, imageData.length - currentIndex); count++) {
+          const testRow = imageData.slice(currentIndex, currentIndex + count);
+          
+          // Calculate height for this combination
+          const totalSpacing = (testRow.length - 1) * spacing;
+          const availableWidth = containerWidth - totalSpacing;
+          const totalRatio = testRow.reduce((sum, img) => sum + img.ratio, 0);
+          const calculatedHeight = availableWidth / totalRatio;
+          
+          // If this combination still meets minimum height, keep it
+          if (calculatedHeight >= minHeight) {
+            bestRow = testRow;
+          } else {
+            // Can't fit more images while meeting minimum height
+            break;
+          }
+        }
+        
+        // Calculate optimal height and widths for this row
+        const totalSpacing = (bestRow.length - 1) * spacing;
+        const availableWidth = containerWidth - totalSpacing;
+        const totalRatio = bestRow.reduce((sum, img) => sum + img.ratio, 0);
+        const optimalHeight = Math.max(minHeight, availableWidth / totalRatio);
+        
+        // Create row element with fixed width and fade-in effect
+        const rowElement = document.createElement('div');
+        rowElement.className = 'responsive-row';
+        rowElement.style.display = 'flex';
+        rowElement.style.gap = spacing + 'px';
+        rowElement.style.marginBottom = spacing + 'px';
+        rowElement.style.height = optimalHeight + 'px';
+        rowElement.style.width = containerWidth + 'px';
+        rowElement.style.opacity = '0';
+        rowElement.style.transition = 'opacity 0.3s ease';
+        
+        // Add images to row with calculated fixed widths
+        bestRow.forEach((imgData) => {
+          const calculatedWidth = optimalHeight * imgData.ratio;
+          
+          const itemElement = document.createElement('div');
+          itemElement.className = 'responsive-item';
+          itemElement.style.display = 'flex';
+          itemElement.style.alignItems = 'center';
+          itemElement.style.justifyContent = 'center';
+          itemElement.style.width = calculatedWidth + 'px';
+          itemElement.style.height = optimalHeight + 'px';
+          
+          // Create a new img element
+          const img = document.createElement('img');
+          img.src = imgData.element.src;
+          img.alt = imgData.element.alt;
+          img.className = 'responsive-image';
+          img.style.height = optimalHeight + 'px';
+          img.style.width = calculatedWidth + 'px';
+          img.loading = 'lazy';
+          
+          itemElement.appendChild(img);
+          rowElement.appendChild(itemElement);
+        });
+        
+        container.appendChild(rowElement);
+        
+        // Trigger fade-in after a brief delay
+        setTimeout(() => {
+          rowElement.style.opacity = '1';
+        }, 50);
+        
+        currentIndex += bestRow.length;
+      }
+      
+      // Hide original images
+      originalImages.forEach(img => {
+        img.style.display = 'none';
+      });
+    }
+  }
+  
+  // Run initial arrangement
+  arrangeResponsiveGallery();
+  
+  // Simple throttled resize handler
+  let resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      // Only re-arrange on resize if we don't already have arranged content
+      if (!container.querySelector('.responsive-row')) {
+        arrangeResponsiveGallery();
+      }
+    }, 250);
+  });
+});
+</script> 

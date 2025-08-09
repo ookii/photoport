@@ -1,0 +1,15 @@
+<% if @render_data && @default_gallery_obj %>
+  <!-- Render using gallery renderer system -->
+  <% if @default_gallery_obj.gallery_type == 'image-slider' %>
+    <%= render 'galleries/types/image_slider_home', render_data: @render_data %>
+  <% else %>
+    <%= render "galleries/types/#{@default_gallery_obj.gallery_type}", render_data: @render_data %>
+  <% end %>
+<% else %>
+  <div class="content-wrapper">
+    <div class="text-center py-16">
+      <h2 class="text-2xl dynamic-text font-semibold mb-4">No Gallery Available</h2>
+      <p class="dynamic-secondary-text">The default gallery is not configured or has no images.</p>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,31 @@
+/* Custom CSS for PhotoPort
+ * Add your custom styles here. Any CSS rules in this file will override
+ * the default PhotoPort styles, giving you full control over the appearance.
+ * 
+ * Examples:
+ * 
+ * Override image container size:
+ * .single-image-container {
+ *   height: 85vh !important;
+ * }
+ * 
+ * Change site header styling:
+ * .site-name {
+ *   font-size: 3rem !important;
+ *   color: #ff6b6b !important;
+ * }
+ * 
+ * Customize gallery grid:
+ * .grid-container {
+ *   gap: 2rem !important;
+ * }
+ * 
+ * Add custom animations:
+ * .single-gallery-image {
+ *   transition: transform 0.3s ease;
+ * }
+ * 
+ * .single-gallery-image:hover {
+ *   transform: scale(1.05);
+ * }
+ */

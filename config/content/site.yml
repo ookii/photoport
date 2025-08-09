@@ -1,0 +1,33 @@
+# Site Configuration for PhotoPort Gallery
+# This file contains all site-wide configuration settings
+
+# Security Settings
+security:
+  disable_right_click: false  # Disable right-click context menu to protect images
+
+# Analytics Settings
+analytics:
+  google_analytics_id: ""  # Google Analytics 4 Measurement ID (e.g., G-XXXXXXXXXX)
+
+
+# CDN Configuration (migrated from cdn.yml)
+# Controls content delivery network settings for image serving
+cdn:
+  # CDN Settings
+  enabled: false                                           # Enable/disable CDN usage
+  base_url: "https://XXXXXXXXXXX.cloudfront.net"      # CloudFront distribution URL
+  fallback_local: false                                   # Fall back to local images in development
+  cache_busting: false                                    # Enable cache busting with version parameters
+  
+  
+  # Cache Control Settings (for deployment script reference)
+  cache_control: "max-age=31536000, public"  # 1 year cache for images
+  content_type: "image/jpeg"                  # Default content type
+  
+  # S3/CloudFront Deployment Settings (for sync_to_s3.sh reference)
+  s3:
+    bucket: "XXXXXXXX"                   # S3 bucket name
+    prefix: "images"                          # S3 path prefix
+    
+  cloudfront:
+    distribution_id: "XXXXXXXXXXXX"         # CloudFront distribution ID for invalidation

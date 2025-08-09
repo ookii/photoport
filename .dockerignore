@@ -1,0 +1,56 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+README.md
+documentation/
+
+# Logs
+*.log
+log/*
+
+# Node modules
+node_modules/
+
+# Temporary files
+tmp/
+.tmp
+
+# Development databases
+*.sqlite3
+*.db
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Ruby version managers
+.ruby-version
+.rbenv-version
+
+# Bundler config
+.bundle/
+
+# Rails specific
+/tmp/*
+/public/assets/*
+/public/packs/*
+/public/packs-test/*
+
+# Deployment scripts (contain AWS config placeholders)
+sync_to_s3.sh
+
+# Server logs (contain localhost access logs)
+server.log
+
+# Docker setup documentation
+DOCKER_SETUP.md
+
+# Environment files (contain secrets)
+.env
+.env.*

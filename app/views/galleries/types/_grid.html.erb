@@ -1,0 +1,32 @@
+<div class="grid-gallery">
+  <!-- Gallery Header -->
+  <div class="content-wrapper">
+    <div class="gallery-header">
+      <h1 class="text-3xl dynamic-text font-bold mb-2"><%= render_data[:gallery].title %></h1>
+    </div>
+  </div>
+
+  <!-- Grid Container -->
+  <div class="content-wrapper">
+    <div class="grid-container" 
+         style="--grid-columns: <%= render_data[:columns] %>; --grid-spacing: <%= render_data[:spacing] %>;"
+         data-controller="lazy-grid">
+      
+      <% render_data[:images].each_with_index do |image, index| %>
+        <div class="grid-item">
+          <img data-src="<%= cdn_image_url(image[:url_path]) %>" 
+               alt="<%= render_data[:gallery].title %> - Image <%= index + 1 %>"
+               class="grid-image"
+               data-lazy-grid-target="image">
+        </div>
+      <% end %>
+      
+    </div>
+    
+    <% if render_data[:images].empty? %>
+      <div class="text-center py-16">
+        <p class="dynamic-secondary-text">No images found in this gallery.</p>
+      </div>
+    <% end %>
+  </div>
+</div>

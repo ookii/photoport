@@ -1,0 +1,12 @@
+<% content_for :body_class, 'page-not-found' %>
+
+<div class="container mx-auto px-4 py-16 text-center">
+  <div class="max-w-2xl mx-auto" style="padding-top: var(--header-top-padding);">
+    <h1 class="text-6xl dynamic-text font-bold mb-4">404</h1>
+    <h2 class="text-2xl dynamic-text font-semibold mb-4">Page Not Found</h2>
+    <p class="dynamic-secondary-text mb-8">
+      The page you're looking for doesn't exist or couldn't be loaded.
+    </p>
+    <%= link_to "← Back to Home", root_path, class: "inline-block dynamic-link hover:opacity-75 px-6 py-3 rounded-lg transition-colors" %>
+  </div>
+</div>

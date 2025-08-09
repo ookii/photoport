@@ -1,0 +1,46 @@
+<div class="single-image-gallery">
+  <!-- Gallery Header -->
+  <div class="content-wrapper">
+    <div class="gallery-header">
+      <h1 class="text-3xl dynamic-text font-bold mb-2"><%= render_data[:gallery].title %></h1>
+    </div>
+  </div>
+  
+  <!-- Full-width Image Container -->
+  <div class="single-image-container" data-controller="swipe">
+    <!-- Navigation Buttons -->
+    <% if render_data[:has_navigation] && render_data[:prev_index] %>
+      <%= link_to home_with_index_path(render_data[:prev_index]), 
+          class: "nav-button nav-prev",
+          title: "Previous image" do %>
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      <% end %>
+    <% end %>
+    
+    <% if render_data[:has_navigation] && render_data[:next_index] %>
+      <%= link_to home_with_index_path(render_data[:next_index]), 
+          class: "nav-button nav-next",
+          title: "Next image" do %>
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      <% end %>
+    <% end %>
+    
+    <!-- Main Image -->
+    <% if render_data[:image_url] %>
+      <img src="<%= cdn_image_url(render_data[:image_url]) %>" 
+           alt="<%= render_data[:gallery].title %> - Image <%= render_data[:current_index] + 1 %>"
+           class="single-gallery-image <%= 'clickable-image' if render_data[:gallery].fullscreen_enabled %>"
+           <% if render_data[:gallery].fullscreen_enabled %>
+             data-action="click->fullscreen#open"
+             data-fullscreen-current-index="<%= render_data[:current_index] %>"
+             data-fullscreen-gallery-slug="home"
+             data-fullscreen-total-count="<%= render_data[:total_count] %>"
+             data-fullscreen-image-url="<%= cdn_image_url(render_data[:image_url]) %>"
+           <% end %>>
+    <% end %>
+  </div>
+</div>

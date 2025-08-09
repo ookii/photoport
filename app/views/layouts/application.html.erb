@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= @page_title || @site_config.page_title %></title>
+    <meta name="description" content="<%= @page_description || @site_config.subheader %>">
+    
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    
+    <% if @site_config.analytics[:google_analytics_id].present? %>
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= @site_config.analytics[:google_analytics_id] %>"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '<%= @site_config.analytics[:google_analytics_id] %>');
+    </script>
+    <% end %>
+    
+    <style>*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/*! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com*/*,:after,:before{box-sizing:border-box;border:0 solid #e5e7eb}:after,:before{--tw-content:""}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.container{width:100%}@media (min-width:640px){.container{max-width:640px}}@media (min-width:768px){.container{max-width:768px}}@media (min-width:1024px){.container{max-width:1024px}}@media (min-width:1280px){.container{max-width:1280px}}@media (min-width:1536px){.container{max-width:1536px}}.visible{visibility:visible}.invisible{visibility:hidden}.static{position:static}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.left-0{left:0}.right-0{right:0}.right-full{right:100%}.top-0{top:0}.z-50{z-index:50}.mb-2{margin-bottom:.5rem}.mb-4{margin-bottom:1rem}.mb-8{margin-bottom:2rem}.mr-1{margin-right:.25rem}.mt-1{margin-top:.25rem}.mt-2{margin-top:.5rem}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-4{height:1rem}.h-6{height:1.5rem}.h-8{height:2rem}.h-full{height:100%}.min-h-screen{min-height:100vh}.w-4{width:1rem}.w-48{width:12rem}.w-6{width:1.5rem}.w-64{width:16rem}.w-8{width:2rem}.w-full{width:100%}.flex-1{flex:1 1 0%}.rotate-180{--tw-rotate:180deg}.rotate-180,.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.resize{resize:both}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.space-x-1>:not([hidden])~:not([hidden]){--tw-space-x-reverse:0;margin-right:calc(.25rem*var(--tw-space-x-reverse));margin-left:calc(.25rem*(1 - var(--tw-space-x-reverse)))}.space-x-3>:not([hidden])~:not([hidden]){--tw-space-x-reverse:0;margin-right:calc(.75rem*var(--tw-space-x-reverse));margin-left:calc(.75rem*(1 - var(--tw-space-x-reverse)))}.space-x-6>:not([hidden])~:not([hidden]){--tw-space-x-reverse:0;margin-right:calc(1.5rem*var(--tw-space-x-reverse));margin-left:calc(1.5rem*(1 - var(--tw-space-x-reverse)))}.overflow-x-hidden{overflow-x:hidden}.rounded-lg{border-radius:.5rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-opacity-50{--tw-border-opacity:0.5}.bg-blue-600{--tw-bg-opacity:1;background-color:rgb(37 99 235/var(--tw-bg-opacity,1))}.bg-opacity-90{--tw-bg-opacity:0.9}.p-2{padding:.5rem}.px-12{padding-left:3rem;padding-right:3rem}.px-3{padding-left:.75rem;padding-right:.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.px-8{padding-left:2rem;padding-right:2rem}.py-16{padding-top:4rem;padding-bottom:4rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.text-center{text-align:center}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-6xl{font-size:3.75rem;line-height:1}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-bold{font-weight:700}.font-semibold{font-weight:600}.text-gray-300{--tw-text-opacity:1;color:rgb(209 213 219/var(--tw-text-opacity,1))}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175/var(--tw-text-opacity,1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}.opacity-0{opacity:0}.opacity-100{opacity:1}.opacity-75{opacity:.75}.shadow-xl{--tw-shadow:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color),0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.blur{--tw-blur:blur(8px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px)}.backdrop-blur-sm,.backdrop-filter{-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-colors{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.duration-200{transition-duration:.2s}.ease-in-out{transition-timing-function:cubic-bezier(.4,0,.2,1)}.last\:border-b-0:last-child{border-bottom-width:0}.hover\:bg-blue-700:hover{--tw-bg-opacity:1;background-color:rgb(29 78 216/var(--tw-bg-opacity,1))}.hover\:opacity-75:hover{opacity:.75}.group:hover .group-hover\:visible,.group\/submenu:hover .group-hover\/submenu\:visible{visibility:visible}.group:hover .group-hover\:opacity-100,.group\/submenu:hover .group-hover\/submenu\:opacity-100{opacity:1}@media (min-width:768px){.md\:flex{display:flex}.md\:hidden{display:none}}</style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <script type="module">
+      import { Application, Controller } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js"
+      
+      // Menu Controller
+      class MenuController extends Controller {
+        static targets = [
+          "mobileButton",
+          "mobileMenu",
+          "submenu",
+          "submenuButton",
+          "mobileSubmenu",
+          "mobileSubmenuButton"
+        ]
+
+        connect() {
+          // Hide all submenus initially
+          this.submenuTargets.forEach(submenu => {
+            submenu.classList.remove('opacity-100', 'visible')
+            submenu.classList.add('opacity-0', 'invisible')
+          })
+        }
+
+        toggleMobile() {
+          const menu = this.mobileMenuTarget
+          menu.classList.toggle('opacity-0')
+          menu.classList.toggle('invisible')
+        }
+
+        showSubmenu(event) {
+          const submenu = event.currentTarget.nextElementSibling
+          if (submenu) {
+            submenu.classList.remove('opacity-0', 'invisible')
+            submenu.classList.add('opacity-100', 'visible')
+          }
+        }
+
+        hideSubmenu(event) {
+          const submenu = event.currentTarget.nextElementSibling
+          if (submenu) {
+            submenu.classList.remove('opacity-100', 'visible')
+            submenu.classList.add('opacity-0', 'invisible')
+          }
+        }
+
+        toggleSubmenu(event) {
+          const submenu = event.currentTarget.nextElementSibling
+          if (submenu) {
+            submenu.classList.toggle('opacity-0')
+            submenu.classList.toggle('invisible')
+            submenu.classList.toggle('opacity-100')
+            submenu.classList.toggle('visible')
+          }
+        }
+
+        toggleMobileSubmenu(event) {
+          const submenu = event.currentTarget.parentElement.querySelector('[data-menu-target="mobileSubmenu"]')
+          const arrow = event.currentTarget.querySelector('svg')
+          
+          if (submenu) {
+            submenu.classList.toggle('hidden')
+            arrow.classList.toggle('rotate-180')
+          }
+        }
+      }
+
+      // Fullscreen Controller
+      class FullscreenController extends Controller {
+        static targets = ["overlay", "image", "prevButton", "nextButton"]
+
+        connect() {
+          this.currentIndex = 0
+          this.totalCount = 0
+          this.gallerySlug = ""
+          
+          // Listen for escape key to close fullscreen
+          this.boundKeyHandler = this.handleKeyPress.bind(this)
+          document.addEventListener('keydown', this.boundKeyHandler)
+        }
+
+        disconnect() {
+          document.removeEventListener('keydown', this.boundKeyHandler)
+        }
+
+        open(event) {
+          // Don't open fullscreen on mobile devices
+          if (window.innerWidth <= 767) {
+            return;
+          }
+          
+          // Get data from the clicked image
+          this.currentIndex = parseInt(event.currentTarget.dataset.fullscreenCurrentIndex)
+          this.totalCount = parseInt(event.currentTarget.dataset.fullscreenTotalCount)
+          this.gallerySlug = event.currentTarget.dataset.fullscreenGallerySlug
+          const imageUrl = event.currentTarget.dataset.fullscreenImageUrl
+          
+          // Set the fullscreen image
+          this.imageTarget.src = imageUrl
+          this.imageTarget.alt = `Image ${this.currentIndex + 1} of ${this.totalCount}`
+          
+          // Update navigation buttons
+          this.updateNavigationButtons()
+          
+          // Show the overlay
+          this.overlayTarget.classList.add('active')
+          
+          // Prevent body scrolling
+          document.body.style.overflow = 'hidden'
+        }
+
+        close() {
+          this.overlayTarget.classList.remove('active')
+          document.body.style.overflow = ''
+        }
+
+        prev() {
+          if (this.currentIndex > 0) {
+            this.currentIndex--
+          } else {
+            // Wraparound to last image
+            this.currentIndex = this.totalCount - 1
+          }
+          this.loadCurrentImage()
+        }
+
+        next() {
+          if (this.currentIndex < this.totalCount - 1) {
+            this.currentIndex++
+          } else {
+            // Wraparound to first image
+            this.currentIndex = 0
+          }
+          this.loadCurrentImage()
+        }
+
+        async loadCurrentImage() {
+          try {
+            let response;
+            
+            // Handle different URL patterns for home vs gallery pages
+            if (this.gallerySlug === 'home') {
+              response = await fetch(`/home/${this.currentIndex}.json`)
+            } else {
+              response = await fetch(`/${this.gallerySlug}/${this.currentIndex}.json`)
+            }
+            
+            const data = await response.json()
+            
+            // Update the fullscreen image
+            this.imageTarget.src = data.image_url
+            this.imageTarget.alt = `Image ${this.currentIndex + 1} of ${this.totalCount}`
+            
+            // Update navigation buttons
+            this.updateNavigationButtons()
+          } catch (error) {
+            console.error('Error loading image:', error)
+          }
+        }
+
+        updateNavigationButtons() {
+          // Show/hide navigation buttons based on gallery size
+          if (this.totalCount > 1) {
+            this.prevButtonTarget.style.display = 'flex'
+            this.nextButtonTarget.style.display = 'flex'
+          } else {
+            this.prevButtonTarget.style.display = 'none'
+            this.nextButtonTarget.style.display = 'none'
+          }
+        }
+
+        handleKeyPress(event) {
+          if (!this.overlayTarget.classList.contains('active')) return
+          
+          switch (event.key) {
+            case 'Escape':
+              this.close()
+              break
+            case 'ArrowLeft':
+              this.prev()
+              break
+            case 'ArrowRight':
+              this.next()
+              break
+          }
+        }
+      }
+
+      // Swipe Controller for mobile navigation
+      class SwipeController extends Controller {
+        connect() {
+          this.startX = 0
+          this.startY = 0
+          this.isScrolling = false
+          
+          // Only add swipe listeners on mobile devices
+          if (window.innerWidth <= 768) {
+            this.element.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: true })
+            this.element.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: false })
+            this.element.addEventListener('touchend', this.handleTouchEnd.bind(this), { passive: true })
+          }
+        }
+
+        handleTouchStart(event) {
+          const touch = event.touches[0]
+          this.startX = touch.clientX
+          this.startY = touch.clientY
+          this.isScrolling = false
+        }
+
+        handleTouchMove(event) {
+          if (!this.startX || !this.startY) return
+
+          const touch = event.touches[0]
+          const deltaX = this.startX - touch.clientX
+          const deltaY = this.startY - touch.clientY
+
+          // Determine if this is a horizontal swipe
+          if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            // Prevent vertical scrolling during horizontal swipe
+            event.preventDefault()
+            this.isScrolling = false
+          } else {
+            // Allow vertical scrolling
+            this.isScrolling = true
+          }
+        }
+
+        handleTouchEnd(event) {
+          if (!this.startX || !this.startY || this.isScrolling) return
+
+          const touch = event.changedTouches[0]
+          const deltaX = this.startX - touch.clientX
+          const deltaY = this.startY - touch.clientY
+
+          // Check if it's a horizontal swipe (minimum distance: 50px)
+          if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+            if (deltaX > 0) {
+              // Swipe left - go to next image
+              this.navigateToNext()
+            } else {
+              // Swipe right - go to previous image
+              this.navigateToPrev()
+            }
+          }
+
+          // Reset values
+          this.startX = 0
+          this.startY = 0
+        }
+
+        navigateToNext() {
+          // Find the next button and click it, or navigate manually
+          const nextButton = document.querySelector('.nav-next')
+          if (nextButton && nextButton.href) {
+            window.location.href = nextButton.href
+          }
+        }
+
+        navigateToPrev() {
+          // Find the prev button and click it, or navigate manually
+          const prevButton = document.querySelector('.nav-prev')
+          if (prevButton && prevButton.href) {
+            window.location.href = prevButton.href
+          }
+        }
+      }
+
+      // Lazy Grid Controller for viewport-based image loading
+      class LazyGridController extends Controller {
+        static targets = ["image"]
+
+        connect() {
+          this.observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const img = entry.target
+                const dataSrc = img.dataset.src
+                
+                // Only load if we haven't loaded this image yet
+                if (dataSrc && !img.src) {
+                  // Add loading class for smooth transition
+                  img.classList.add('loading')
+                  
+                  // Set up load event handler first
+                  img.addEventListener('load', () => {
+                    img.classList.remove('loading')
+                    img.classList.add('loaded')
+                  }, { once: true })
+                  
+                  // Handle load errors
+                  img.addEventListener('error', () => {
+                    img.classList.remove('loading')
+                    console.error('Failed to load image:', dataSrc)
+                  }, { once: true })
+                  
+                  // Actually start loading the image by setting src
+                  img.src = dataSrc
+                }
+                
+                // Stop observing this image
+                this.observer.unobserve(img)
+              }
+            })
+          }, {
+            rootMargin: '100px 0px', // Start loading 100px before entering viewport
+            threshold: 0.1
+          })
+
+          // Start observing all grid images
+          this.imageTargets.forEach((img) => {
+            this.observer.observe(img)
+          })
+        }
+
+        disconnect() {
+          if (this.observer) {
+            this.observer.disconnect()
+          }
+        }
+      }
+
+      // Start Stimulus and register controllers
+      window.Stimulus = Application.start()
+      window.Stimulus.register("menu", MenuController)
+      window.Stimulus.register("fullscreen", FullscreenController)
+      window.Stimulus.register("swipe", SwipeController)
+      window.Stimulus.register("lazy-grid", LazyGridController)
+    </script>
+    
+    <% if @site_config.security[:disable_right_click] %>
+    <script>
+      // Right-click protection
+      document.addEventListener('DOMContentLoaded', function() {
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+          e.preventDefault();
+          return false;
+        });
+        
+        // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+        document.addEventListener('keydown', function(e) {
+          // F12
+          if (e.keyCode === 123) {
+            e.preventDefault();
+            return false;
+          }
+          
+          // Ctrl+Shift+I (Developer Tools)
+          if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+            e.preventDefault();
+            return false;
+          }
+          
+          // Ctrl+Shift+J (Console)
+          if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+            e.preventDefault();
+            return false;
+          }
+          
+          // Ctrl+U (View Source)
+          if (e.ctrlKey && e.keyCode === 85) {
+            e.preventDefault();
+            return false;
+          }
+        });
+        
+        // Disable image dragging
+        document.addEventListener('dragstart', function(e) {
+          if (e.target.tagName.toLowerCase() === 'img') {
+            e.preventDefault();
+            return false;
+          }
+        });
+        
+        // Disable text selection on images
+        const images = document.querySelectorAll('img');
+        images.forEach(function(img) {
+          img.style.userSelect = 'none';
+          img.style.webkitUserSelect = 'none';
+          img.style.mozUserSelect = 'none';
+          img.style.msUserSelect = 'none';
+          img.setAttribute('draggable', 'false');
+          img.setAttribute('ondragstart', 'return false;');
+        });
+      });
+    </script>
+    <% end %>
+    
+    <style>
+      :root {
+        --bg-color: <%= @site_config.styling[:background_color] %>;
+        --text-color: <%= @site_config.styling[:text_color] %>;
+        --link-color: <%= @site_config.styling[:link_color] %>;
+        --hover-link-color: <%= @site_config.styling[:hover_link_color] %>;
+        --accent-color: <%= @site_config.styling[:accent_color] %>;
+        --header-bg-color: <%= @site_config.styling[:header_background_color] %>;
+        --secondary-text-color: <%= @site_config.styling[:secondary_text_color] %>;
+        --border-color: <%= @site_config.styling[:border_color] %>;
+        --primary-font: <%= @site_config.styling[:primary_font] %>;
+        --heading-font: <%= @site_config.styling[:heading_font] %>;
+        --font-weight-normal: <%= @site_config.styling[:font_weight_normal] %>;
+        --font-weight-medium: <%= @site_config.styling[:font_weight_medium] %>;
+        --font-weight-bold: <%= @site_config.styling[:font_weight_bold] %>;
+        --max-content-width: <%= @site_config.styling[:max_content_width] %>;
+        --site-name-font-size: <%= @site_config.styling[:site_name_font_size] %>;
+        --site-name-font-weight: <%= @site_config.styling[:site_name_font_weight] %>;
+        --site-name-letter-spacing: <%= @site_config.styling[:site_name_letter_spacing] %>;
+        --site-subheader-font-size: <%= @site_config.styling[:site_subheader_font_size] %>;
+        --site-subheader-font-weight: <%= @site_config.styling[:site_subheader_font_weight] %>;
+        --site-subheader-letter-spacing: <%= @site_config.styling[:site_subheader_letter_spacing] %>;
+        --header-top-padding: <%= @site_config.styling[:header_top_padding] %>;
+      }
+      .topbar-height { 
+        height: calc(80px + var(--header-top-padding)); 
+      }
+      .content-top-padding { 
+        padding-top: calc(80px + var(--header-top-padding)); 
+      }
+      
+      body {
+        background-color: var(--bg-color) !important;
+        color: var(--text-color) !important;
+        font-family: var(--primary-font) !important;
+        font-weight: var(--font-weight-normal);
+        line-height: 1.6;
+      }
+      
+      h1, h2, h3, h4, h5, h6 {
+        font-family: var(--heading-font) !important;
+        font-weight: var(--font-weight-bold);
+      }
+      
+      .dynamic-bg {
+        background-color: var(--bg-color) !important;
+      }
+      
+      .dynamic-text {
+        color: var(--text-color) !important;
+      }
+      
+      .dynamic-secondary-text {
+        color: var(--secondary-text-color) !important;
+      }
+      
+      .dynamic-link {
+        color: var(--link-color) !important;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+      
+      .dynamic-link:hover {
+        color: var(--hover-link-color) !important;
+      }
+      
+      .dynamic-accent {
+        background-color: var(--accent-color) !important;
+      }
+      
+      .dynamic-header-bg {
+        background-color: var(--header-bg-color) !important;
+      }
+      
+      .dynamic-border {
+        border-color: var(--border-color) !important;
+      }
+      
+      .content-wrapper {
+        width: 90%;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+      
+      .content-wrapper.responsive-content {
+        width: auto;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .site-name {
+        font-size: var(--site-name-font-size);
+        font-weight: var(--site-name-font-weight);
+        letter-spacing: var(--site-name-letter-spacing);
+        font-family: var(--heading-font);
+      }
+      
+      .site-subheader {
+        font-size: var(--site-subheader-font-size);
+        font-weight: var(--site-subheader-font-weight);
+        letter-spacing: var(--site-subheader-letter-spacing);
+        font-family: var(--primary-font);
+      }
+      
+      /* Single image gallery layout */
+      .single-image-gallery {
+        width: 100%;
+        overflow-x: hidden;
+      }
+      
+      .gallery-header {
+        text-align: center;
+        padding: 2rem 0;
+      }
+      
+      .single-image-container {
+        position: relative;
+        width: 100vw;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        height: 75vh;
+        min-height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg-color);
+        overflow: hidden;
+      }
+      
+      .single-gallery-image {
+        max-width: 100vw;
+        max-height: 75vh;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        object-position: center;
+        display: block;
+      }
+      
+      .nav-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        color: var(--text-color);
+        background: transparent;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .nav-prev {
+        left: 2rem;
+      }
+      
+      .nav-next {
+        right: 2rem;
+      }
+      
+      .image-info {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 0.75rem 1.5rem;
+        border-radius: 2rem;
+        backdrop-filter: blur(10px);
+      }
+      
+      /* Fullscreen mode styles */
+      .fullscreen-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: var(--bg-color);
+        z-index: 9999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .fullscreen-overlay.active {
+        display: flex;
+      }
+      
+      .fullscreen-image-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .fullscreen-image {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        object-position: center;
+      }
+      
+      .fullscreen-nav-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10000;
+        color: var(--text-color);
+        background: transparent;
+        border: none;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+      }
+      
+      .fullscreen-nav-button:hover {
+        opacity: 1;
+      }
+      
+      .fullscreen-nav-prev {
+        left: 2rem;
+      }
+      
+      .fullscreen-nav-next {
+        right: 2rem;
+      }
+      
+      .fullscreen-close {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        z-index: 10000;
+        color: var(--text-color);
+        background: transparent;
+        border: none;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+      }
+      
+      .fullscreen-close:hover {
+        opacity: 1;
+      }
+      
+      /* Only enable fullscreen functionality on desktop/tablet */
+      .clickable-image {
+        cursor: pointer;
+      }
+      
+      @media (max-width: 767px) {
+        .clickable-image {
+          cursor: default;
+        }
+      }
+
+      /* Reduced header padding for vertically constrained screens */
+      @media (max-height: 600px) and (orientation: landscape) {
+        :root {
+          --header-top-padding: 0.3rem; /* 15% of original 2rem */
+        }
+        
+        /* Reduce content padding that creates space for fixed header */
+        .content-top-padding {
+          padding-top: calc(80px + 0.3rem); /* Much smaller content padding */
+        }
+        
+        /* Compact gallery header with minimal spacing */
+        .gallery-header {
+          padding: 0.5rem 0; /* Small padding to give title breathing room */
+          margin: 0; /* No margin */
+        }
+        
+        /* Visible and readable gallery title */
+        .gallery-header h1 {
+          margin: 0; /* Remove all margins */
+          line-height: 1.2; /* Slightly more readable line height */
+          font-size: 1.5rem; /* Larger, more visible text */
+          padding: 0; /* No additional padding */
+          color: var(--text-color); /* Ensure proper contrast */
+        }
+        
+        /* Pull the single-image-container up to achieve 60% reduction while preserving title */
+        .single-image-container {
+          margin-top: -4.15rem; /* Fine-tuned margin to reach exactly 60% reduction */
+        }
+      }
+      
+      /* Additional height-based adjustments for smaller laptops */
+      @media (max-height: 800px) and (min-width: 1024px) {
+        :root {
+          --header-top-padding: 0.3rem; /* 15% of original 2rem */
+        }
+      }
+
+      /* Fullscreen image safety margins for landscape phones */
+      @media (max-height: 600px) and (orientation: landscape) {
+        .fullscreen-image {
+          max-height: 90vh; /* Reduce to 90% of viewport height to avoid Safari UI cutoff */
+          max-width: 95vw; /* Slight reduction to prevent any horizontal cutoff */
+        }
+        
+        .fullscreen-overlay {
+          padding: 2vh 2.5vw; /* Add padding to ensure image doesn't touch edges */
+        }
+      }
+
+      /* Grid gallery styles */
+      .grid-gallery {
+        width: 100%;
+      }
+      
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(var(--grid-columns, 3), 1fr);
+        gap: var(--grid-spacing, 1rem);
+        margin-bottom: 2rem;
+      }
+      
+      .grid-item {
+        position: relative;
+        overflow: hidden;
+        background-color: var(--accent-color);
+      }
+      
+      .grid-image {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        object-position: center;
+        display: block;
+        background-color: var(--accent-color);
+      }
+      
+      .grid-image {
+        cursor: default;
+      }
+      
+      /* Grid responsive adjustments */
+      @media (max-width: 1200px) {
+        .grid-container {
+          grid-template-columns: repeat(min(var(--grid-columns, 3), 3), 1fr);
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .grid-container {
+          grid-template-columns: repeat(min(var(--grid-columns, 3), 2), 1fr);
+          gap: calc(var(--grid-spacing, 1rem) * 0.75);
+        }
+        
+        .grid-image {
+          height: auto;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .grid-container {
+          grid-template-columns: 1fr;
+          gap: calc(var(--grid-spacing, 1rem) * 0.5);
+        }
+        
+        .grid-image {
+          height: auto;
+        }
+      }
+
+      /* Responsive gallery styles */
+      .responsive-gallery {
+        width: 100%;
+      }
+      
+      .responsive-container {
+        margin-bottom: 2rem;
+        width: 90vw;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      /* Mobile specific styles */
+      @media (max-width: 767px) {
+        .responsive-container {
+          width: 95vw;
+        }
+        
+        .mobile-row {
+          padding: 0 0.5rem;
+        }
+        
+        .mobile-image {
+          max-width: 100%;
+          height: auto !important;
+          width: auto !important;
+        }
+      }
+      
+      .responsive-row {
+        display: flex;
+        gap: var(--responsive-spacing, 1rem);
+        margin-bottom: var(--responsive-spacing, 1rem);
+      }
+      
+      .responsive-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--accent-color);
+        min-height: 300px; /* Prevent layout shift */
+        position: relative;
+      }
+      
+      /* Modern browsers: use aspect-ratio for precise sizing */
+      @supports (aspect-ratio: 1) {
+        .responsive-item[data-aspect-ratio] {
+          aspect-ratio: attr(data-aspect-ratio);
+          min-height: auto;
+        }
+      }
+      
+      /* Skeleton loading styles for responsive gallery */
+      .skeleton-container {
+        opacity: 1;
+        transition: opacity 0.3s ease;
+      }
+      
+      .images-container {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      
+      .skeleton-item {
+        width: 100%;
+        height: 300px;
+        margin-bottom: var(--responsive-spacing, 1rem);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      
+      .skeleton-placeholder {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, 
+          var(--accent-color) 0%, 
+          rgba(255,255,255,0.1) 50%, 
+          var(--accent-color) 100%);
+        background-size: 200% 100%;
+        animation: skeleton-loading 1.5s ease-in-out infinite;
+        border-radius: 4px;
+      }
+      
+      @keyframes skeleton-loading {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+      
+      /* Responsive skeleton adjustments */
+      @media (min-width: 768px) {
+        .skeleton-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: var(--responsive-spacing, 1rem);
+        }
+        
+        .skeleton-item {
+          flex: 1 1 calc(33.333% - var(--responsive-spacing, 1rem));
+          margin-bottom: 0;
+          height: 250px;
+        }
+      }
+      
+      @media (max-width: 767px) {
+        .skeleton-item {
+          height: 250px;
+        }
+      }
+      
+      /* Grid lazy loading styles */
+      .grid-image {
+        transition: opacity 0.4s ease, filter 0.4s ease;
+        background-color: var(--border-color, #e5e7eb);
+        background-image: linear-gradient(45deg, transparent 25%, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.1) 75%, transparent 75%), 
+                          linear-gradient(45deg, transparent 25%, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.1) 75%, transparent 75%);
+        background-size: 20px 20px;
+        background-position: 0 0, 10px 10px;
+        min-height: 200px;
+        display: block;
+        width: 100%;
+        object-fit: cover;
+      }
+      
+      .grid-image.loading {
+        opacity: 0.7;
+        filter: blur(1px);
+      }
+      
+      .grid-image.loaded {
+        opacity: 1;
+        filter: blur(0);
+        background-image: none;
+        background-color: transparent;
+      }
+      
+      .responsive-image {
+        width: auto;
+        display: block;
+      }
+      
+      /* Responsive gallery responsive adjustments */
+      @media (max-width: 768px) {
+        .responsive-container {
+          grid-template-columns: 1fr;
+          gap: calc(var(--responsive-spacing, 1rem) * 0.75);
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .responsive-container {
+          grid-template-columns: 1fr;
+          gap: calc(var(--responsive-spacing, 1rem) * 0.5);
+        }
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .single-image-container {
+          height: 60vh;
+          min-height: 400px;
+        }
+        
+        .single-gallery-image {
+          max-width: 100vw;
+          max-height: 60vh;
+        }
+        
+        .gallery-header {
+          padding: 1.5rem 0;
+        }
+        
+        .gallery-header h1 {
+          font-size: 2rem;
+        }
+        
+        /* Hide navigation arrows on mobile - use swipe instead */
+        .nav-button {
+          display: none;
+        }
+        
+        .image-info {
+          bottom: 1rem;
+          padding: 0.5rem 1rem;
+          font-size: 0.875rem;
+        }
+        
+        /* Enable smooth transitions for swipe navigation */
+        .single-image-container {
+          transition: transform 0.3s ease;
+        }
+        
+        /* Visual feedback for swipe interactions */
+        .single-gallery-image {
+          transition: transform 0.2s ease;
+        }
+      }
+    </style>
+    
+    <!-- Custom CSS -->
+    <% unless @site_config.custom_css.blank? %>
+    <style>
+      <%= @site_config.custom_css.html_safe %>
+    </style>
+    <% end %>
+  </head>
+
+  <body class="min-h-screen overflow-x-hidden" data-controller="fullscreen">
+    <!-- Fixed Top Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 dynamic-header-bg bg-opacity-90 backdrop-blur-sm">
+      <div class="flex justify-between items-center px-6 topbar-height" style="padding-top: calc(1rem + var(--header-top-padding)); padding-bottom: 1rem;">
+        <!-- Left: Site Name & Subheader -->
+        <div class="flex flex-col">
+          <div class="flex items-center space-x-3">
+            <%= link_to root_path, class: "site-name dynamic-link hover:opacity-75 transition-colors" do %>
+              <%= @site_config.site_name %>
+            <% end %>
+          </div>
+          <% if @site_config.subheader.present? %>
+            <p class="site-subheader dynamic-text opacity-75 mt-1"><%= @site_config.subheader %></p>
+          <% end %>
+        </div>
+
+        <!-- Right: Navigation Menu -->
+        <nav data-controller="menu" class="relative">
+          <!-- Mobile Menu Button -->
+          <button data-action="click->menu#toggleMobile" 
+                  data-menu-target="mobileButton"
+                  class="md:hidden p-2 dynamic-text hover:opacity-75 transition-colors"
+                  aria-label="Toggle menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+
+          <!-- Desktop Menu -->
+          <ul class="hidden md:flex items-center">
+            <% @menu_items.each_with_index do |item, index| %>
+              <% if item[:separator] %>
+                <!-- Separator item - inline with menu items -->
+                <li class="flex items-center mx-3">
+                  <span class="px-1 dynamic-text opacity-50 text-sm">
+                    <%= item[:separator_char] || @menu.separator_character %>
+                  </span>
+                </li>
+              <% else %>
+                <li class="relative group mx-3">
+                  <% if item[:children] %>
+                    <button data-action="click->menu#toggleSubmenu mouseenter->menu#showSubmenu mouseleave->menu#hideSubmenu"
+                            data-menu-target="submenuButton"
+                            class="flex items-center space-x-1 px-3 py-2 dynamic-text hover:opacity-75 transition-colors <%= 'dynamic-link' if item[:active] || item[:has_active_child] %> <%= 'font-bold' if item[:bold] %>">
+                      <span><%= item[:label] %></span>
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </button>
+                    <ul data-menu-target="submenu" 
+                        class="absolute right-0 mt-2 py-2 w-48 dynamic-accent rounded-lg shadow-xl border dynamic-accent border-opacity-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                      <% item[:children].each do |child| %>
+                        <li class="relative">
+                          <% if child[:separator] %>
+                            <!-- Separator in submenu -->
+                            <div class="px-4 py-1 text-center">
+                              <span class="text-xs dynamic-text opacity-50">
+                                <%= child[:separator_char] || @menu.separator_character %>
+                              </span>
+                            </div>
+                          <% elsif child[:children] %>
+                            <!-- Third level menu item with completely independent hover -->
+                            <div class="relative group/submenu">
+                              <button class="w-full flex justify-between items-center px-4 py-2 dynamic-text hover:opacity-75 transition-colors <%= 'dynamic-link' if child[:active] || child[:has_active_child] %> <%= 'font-bold' if child[:bold] %>">
+                                <span><%= child[:label] %></span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                              </button>
+                              <!-- Third level submenu - completely isolated hover behavior -->
+                              <ul class="absolute right-full top-0 mr-1 py-2 w-48 dynamic-accent rounded-lg shadow-xl border dynamic-accent border-opacity-50 opacity-0 invisible group-hover/submenu:opacity-100 group-hover/submenu:visible transition-all duration-200">
+                              <% child[:children].each do |grandchild| %>
+                                <li>
+                                  <% if grandchild[:separator] %>
+                                    <!-- Separator in third level -->
+                                    <div class="px-4 py-1 text-center">
+                                      <span class="text-xs dynamic-text opacity-50">
+                                        <%= grandchild[:separator_char] || @menu.separator_character %>
+                                      </span>
+                                    </div>
+                                  <% else %>
+                                    <%= link_to grandchild[:href], 
+                                        class: "block px-4 py-2 dynamic-text hover:opacity-75 transition-colors #{grandchild[:active] ? 'dynamic-link' : ''} #{'font-bold' if grandchild[:bold]}" do %>
+                                      <%= grandchild[:label] %>
+                                    <% end %>
+                                  <% end %>
+                                </li>
+                              <% end %>
+                              </ul>
+                            </div>
+                          <% else %>
+                            <!-- Second level menu item (leaf) -->
+                            <%= link_to child[:href], 
+                                class: "block px-4 py-2 dynamic-text hover:opacity-75 transition-colors #{child[:active] ? 'dynamic-link' : ''} #{'font-bold' if child[:bold]}" do %>
+                              <%= child[:label] %>
+                            <% end %>
+                          <% end %>
+                        </li>
+                      <% end %>
+                    </ul>
+                  <% else %>
+                    <%= link_to item[:href], 
+                        class: "block px-3 py-2 dynamic-text hover:opacity-75 transition-colors #{item[:active] ? 'dynamic-link' : ''} #{'font-bold' if item[:bold]}",
+                        **{ item[:external] ? :target : nil => item[:external] ? '_blank' : nil,
+                            item[:external] ? :rel : nil => item[:external] ? 'noopener noreferrer' : nil }.compact do %>
+                                          <%= item[:label] %>
+                    <% end %>
+                  <% end %>
+                </li>
+              <% end %>
+            <% end %>
+          </ul>
+
+          <!-- Mobile Menu -->
+          <div data-menu-target="mobileMenu" 
+               class="md:hidden absolute right-0 mt-2 py-2 w-64 dynamic-accent opacity-0 invisible transition-all duration-200">
+            <% @menu_items.each do |item| %>
+              <% if item[:separator] %>
+                <!-- Separator in mobile menu -->
+                <div class="px-4 py-1 text-center">
+                  <span class="text-xs dynamic-text opacity-50">
+                    <%= item[:separator_char] || @menu.separator_character %>
+                  </span>
+                </div>
+              <% elsif item[:children] %>
+                <div class="border-b dynamic-border last:border-b-0">
+                  <button data-action="click->menu#toggleMobileSubmenu"
+                          data-menu-target="mobileSubmenuButton"
+                          class="w-full flex justify-between items-center px-4 py-3 dynamic-text hover:opacity-75 transition-colors <%= 'dynamic-link' if item[:active] || item[:has_active_child] %> <%= 'font-bold' if item[:bold] %>">
+                    <span><%= item[:label] %></span>
+                    <svg class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </button>
+                  <div data-menu-target="mobileSubmenu" class="hidden dynamic-accent">
+                    <% item[:children].each do |child| %>
+                      <% if child[:separator] %>
+                        <!-- Separator in mobile submenu -->
+                        <div class="px-8 py-1 text-center">
+                          <span class="text-xs dynamic-text opacity-50">
+                            <%= child[:separator_char] || @menu.separator_character %>
+                          </span>
+                        </div>
+                      <% elsif child[:children] %>
+                        <!-- Third level mobile menu item -->
+                        <div class="border-b dynamic-border last:border-b-0">
+                          <button data-action="click->menu#toggleMobileSubmenu"
+                                  data-menu-target="mobileSubmenuButton"
+                                  class="w-full flex justify-between items-center px-8 py-2 dynamic-text hover:opacity-75 transition-colors <%= 'dynamic-link' if child[:active] || child[:has_active_child] %> <%= 'font-bold' if child[:bold] %>">
+                            <span><%= child[:label] %></span>
+                            <svg class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                          </button>
+                          <div data-menu-target="mobileSubmenu" class="hidden dynamic-accent">
+                            <% child[:children].each do |grandchild| %>
+                              <% if grandchild[:separator] %>
+                                <!-- Separator in third level mobile -->
+                                <div class="px-12 py-1 text-center">
+                                  <span class="text-xs dynamic-text opacity-50">
+                                    <%= grandchild[:separator_char] || @menu.separator_character %>
+                                  </span>
+                                </div>
+                              <% else %>
+                                <%= link_to grandchild[:href], 
+                                    class: "block px-12 py-2 dynamic-text hover:opacity-75 transition-colors #{'dynamic-link' if grandchild[:active]} #{'font-bold' if grandchild[:bold]}" do %>
+                                  <%= grandchild[:label] %>
+                                <% end %>
+                              <% end %>
+                            <% end %>
+                          </div>
+                        </div>
+                      <% else %>
+                        <!-- Second level mobile menu item (leaf) -->
+                        <%= link_to child[:href], 
+                            class: "block px-8 py-2 dynamic-text hover:opacity-75 transition-colors #{'dynamic-link' if child[:active]} #{'font-bold' if child[:bold]}" do %>
+                          <%= child[:label] %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              <% else %>
+                <%= link_to item[:href], 
+                    class: "block px-4 py-3 dynamic-text hover:opacity-75 transition-colors #{'dynamic-link' if item[:active]} #{'font-bold' if item[:bold]}",
+                    **{ item[:external] ? :target : nil => item[:external] ? '_blank' : nil,
+                        item[:external] ? :rel : nil => item[:external] ? 'noopener noreferrer' : nil }.compact do %>
+                  <%= item[:label] %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="content-top-padding h-full" style="padding-bottom: calc(80px + var(--header-top-padding));">
+      <%= yield %>
+    </main>
+
+    <!-- Fullscreen overlay -->
+    <div class="fullscreen-overlay" data-fullscreen-target="overlay">
+      <div class="fullscreen-image-container">
+        <!-- Close button -->
+        <button class="fullscreen-close" data-action="click->fullscreen#close">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+        
+        <!-- Navigation buttons -->
+        <button class="fullscreen-nav-button fullscreen-nav-prev" data-fullscreen-target="prevButton" data-action="click->fullscreen#prev" style="display: none;">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
+        
+        <button class="fullscreen-nav-button fullscreen-nav-next" data-fullscreen-target="nextButton" data-action="click->fullscreen#next" style="display: none;">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+        
+        <!-- Fullscreen image -->
+        <img class="fullscreen-image" data-fullscreen-target="image" src="" alt="">
+      </div>
+    </div>
+
+    <% if @next_image_url %>
+      <link rel="prefetch" href="<%= @next_image_url %>">
+    <% end %>
+  </body>
+</html>

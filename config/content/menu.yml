@@ -1,0 +1,100 @@
+# PhotoPort Menu Configuration
+# This file defines the navigation menu structure for the application
+
+# Main menu items - these appear in the top navigation
+menu:
+  - label: "Home"
+    href: "/"
+  - label: "Galleries"
+    bold: true
+    children:
+      - label: "Grid"
+        href: "/grid"
+      - label: "Slider"
+        href: "/slider"
+      - label: "Even more"
+        children:
+          - label: "Responsive"
+            href: "/responsive"
+
+# Menu separator configuration
+# This defines the character used for menu separators
+separator_character: "|"  # Default separator character (can be "|", "•", "-", etc.)
+
+# Custom menu links - these are appended after the main menu items
+# Use this section to add custom pages, external links, or additional navigation
+custom_menu_links:
+  - separator: true
+  - label: "About"
+    href: "/about"
+    
+  # Examples of different types of menu links:
+  
+  # External social media link
+  # - label: "Instagram"
+  #   href: "https://instagram.com/username"
+  #   external: true
+  
+  # Email link (will open email client)
+  # - label: "Email Me"
+  #   href: "mailto:contact@example.com"
+  #   external: true
+  
+  # Bold menu item example
+  # - label: "Featured"
+  #   href: "/featured"
+  #   bold: true
+  
+  # Separator example (renders as the separator character)
+  # - separator: true
+  
+  # Separator with custom character
+  # - separator: "•"
+  
+  # Test items for bold and separator features (uncomment to test)
+  # - separator: true
+  # - label: "Featured"
+  #   href: "/featured"
+  #   bold: true
+  # - separator: "•"
+  # - label: "Contact"
+  #   href: "/contact"
+  #   external: true
+
+# Menu Configuration Notes:
+# 
+# Basic Link Structure:
+# - label: "Display Name"     # Text shown in the menu
+#   href: "/path"             # URL path or full URL
+#   external: true            # Optional: set to true for external links
+#   bold: true               # Optional: set to true for bold text
+#
+# Hierarchical Menu (up to 3 levels supported):
+# - label: "Category"
+#   children:
+#     - label: "Subcategory"
+#       children:
+#         - label: "Item"
+#           href: "/path"
+#
+# Separator Items:
+# - separator: true           # Uses default separator character (|)
+# - separator: "•"           # Uses custom separator character
+# - separator: "-"           # Uses dash as separator
+#
+# External Link Properties:
+# - external: true will automatically:
+#   * Open link in new tab/window
+#   * Add security attributes (rel="noopener noreferrer") 
+#   * Display external link icon
+#   * Work with any URL (https://, mailto:, etc.)
+#
+# Internal Link Properties:
+# - href: can be relative (/about) or absolute (/galleries/japan)
+# - No external flag needed for same-site links
+# - Will use normal navigation (same tab/window)
+#
+# Bold Text Properties:
+# - bold: true will apply font-weight: bold to the menu item
+# - Works with any menu item (main menu, custom links, submenu items)
+# - Can be combined with external: true for bold external links
