@@ -2,7 +2,7 @@ require 'yaml'
 
 module Content
   class SiteConfig
-    attr_reader :site_name, :subheader, :page_title, :logo_path, :galleries, :pages, :menu, :styling, :default_gallery, :cdn, :security, :analytics, :custom_css
+    attr_reader :site_name, :subheader, :page_title, :logo_path, :galleries, :pages, :menu, :styling, :default_gallery, :cdn, :security, :analytics, :custom_css, :footer
 
     def initialize
       load_config
@@ -45,6 +45,7 @@ module Content
       @security = parse_security(site_config['security'] || {})
       @analytics = parse_analytics(site_config['analytics'] || {})
       @custom_css = load_custom_css
+      @footer = parse_footer(styling_config['footer'] || {})
     end
 
     def load_yaml_file(filename)
@@ -188,6 +189,12 @@ module Content
     rescue => e
       Rails.logger.error "Error loading custom CSS: #{e.message}"
       ''
+    end
+
+    def parse_footer(footer_config)
+      {
+        show_photoport_credit: footer_config['show_photoport_credit'] != false
+      }
     end
   end
 end

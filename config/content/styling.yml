@@ -41,3 +41,7 @@ layout:
   gallery_columns: "3"
   image_aspect_ratio: "4:3"
   header_top_padding: "2rem"  # Additional spacing from top of page to match joshtaylor.photo
+
+# Footer settings
+footer:
+  show_photoport_credit: true  # Show "Created with PhotoPort" link in footer

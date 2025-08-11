@@ -519,6 +519,7 @@
       .single-image-gallery {
         width: 100%;
         overflow-x: hidden;
+        padding-bottom: 2rem; /* Ensure space above footer */
       }
       
       .gallery-header {
@@ -533,8 +534,9 @@
         right: 50%;
         margin-left: -50vw;
         margin-right: -50vw;
-        height: 75vh;
+        height: calc(75vh - 60px); /* Subtract footer height to avoid overlap */
         min-height: 500px;
+        max-height: calc(100vh - 160px); /* Ensure footer space on short screens */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -544,7 +546,7 @@
       
       .single-gallery-image {
         max-width: 100vw;
-        max-height: 75vh;
+        max-height: calc(75vh - 60px); /* Match container height */
         width: auto;
         height: auto;
         object-fit: contain;
@@ -739,6 +741,7 @@
       /* Grid gallery styles */
       .grid-gallery {
         width: 100%;
+        padding-bottom: 2rem; /* Ensure space above footer */
       }
       
       .grid-container {
@@ -798,6 +801,7 @@
       /* Responsive gallery styles */
       .responsive-gallery {
         width: 100%;
+        padding-bottom: 2rem; /* Ensure space above footer */
       }
       
       .responsive-container {
@@ -1220,9 +1224,23 @@
     </header>
 
     <!-- Main Content -->
-    <main class="content-top-padding h-full" style="padding-bottom: calc(80px + var(--header-top-padding));">
+    <main class="content-top-padding">
       <%= yield %>
     </main>
+
+    <!-- Footer -->
+    <% if @site_config.footer[:show_photoport_credit] %>
+    <footer class="w-full dynamic-header-bg bg-opacity-90 backdrop-blur-sm" style="padding-bottom: 15px;">
+      <div class="flex justify-center items-center px-6 py-4">
+        <p class="text-sm dynamic-secondary-text">
+          Created with <%= link_to "PhotoPort", "https://github.com/ookii/photoport", 
+                                  class: "dynamic-link hover:opacity-75 transition-colors", 
+                                  target: "_blank", 
+                                  rel: "noopener noreferrer" %>
+        </p>
+      </div>
+    </footer>
+    <% end %>
 
     <!-- Fullscreen overlay -->
     <div class="fullscreen-overlay" data-fullscreen-target="overlay">
