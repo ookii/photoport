@@ -838,7 +838,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: var(--accent-color);
         min-height: 300px; /* Prevent layout shift */
         position: relative;
       }
@@ -1141,16 +1140,10 @@
                class="md:hidden absolute right-0 mt-2 py-2 w-64 dynamic-accent opacity-0 invisible transition-all duration-200">
             <% @menu_items.each do |item| %>
               <% if item[:separator] %>
-                <!-- Separator in mobile menu -->
-                <div class="px-4 py-1 text-center">
-                  <span class="text-xs dynamic-text opacity-50">
-                    <%= item[:separator_char] || @menu.separator_character %>
-                  </span>
-                </div>
+                <!-- Separator in mobile menu - use HR instead of character -->
+                <hr class="my-2 dynamic-border border-opacity-30">
               <% elsif item[:space] %>
-                <!-- Space in mobile menu - adds vertical spacing -->
-                <div style="height: <%= item[:space_amount] %>;">
-                </div>
+                <!-- Ignore space options in mobile menu -->
               <% elsif item[:children] %>
                 <div class="border-b dynamic-border last:border-b-0">
                   <button data-action="click->menu#toggleMobileSubmenu"
@@ -1164,12 +1157,8 @@
                   <div data-menu-target="mobileSubmenu" class="hidden dynamic-accent">
                     <% item[:children].each do |child| %>
                       <% if child[:separator] %>
-                        <!-- Separator in mobile submenu -->
-                        <div class="px-8 py-1 text-center">
-                          <span class="text-xs dynamic-text opacity-50">
-                            <%= child[:separator_char] || @menu.separator_character %>
-                          </span>
-                        </div>
+                        <!-- Separator in mobile submenu - use HR -->
+                        <hr class="mx-4 my-2 dynamic-border border-opacity-30">
                       <% elsif child[:children] %>
                         <!-- Third level mobile menu item -->
                         <div class="border-b dynamic-border last:border-b-0">
@@ -1184,12 +1173,8 @@
                           <div data-menu-target="mobileSubmenu" class="hidden dynamic-accent">
                             <% child[:children].each do |grandchild| %>
                               <% if grandchild[:separator] %>
-                                <!-- Separator in third level mobile -->
-                                <div class="px-12 py-1 text-center">
-                                  <span class="text-xs dynamic-text opacity-50">
-                                    <%= grandchild[:separator_char] || @menu.separator_character %>
-                                  </span>
-                                </div>
+                                <!-- Separator in third level mobile - use HR -->
+                                <hr class="mx-8 my-2 dynamic-border border-opacity-30">
                               <% else %>
                                 <%= link_to grandchild[:href], 
                                     class: "block px-12 py-2 dynamic-text hover:opacity-75 transition-colors #{'dynamic-link' if grandchild[:active]} #{'font-bold' if grandchild[:bold]}" do %>

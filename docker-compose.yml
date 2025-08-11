@@ -6,7 +6,7 @@ services:
     # Change "3000:3000" to "8080:3000" to access gallery at http://localhost:8080
     # Format is "host_port:container_port"
     ports:
-      - "3000:3000"
+      - "3002:3000"
     # Volumes configuration  
     # Current setup uses Docker-managed volumes for data persistence
     # To use local directories instead, replace with bind mounts like:
