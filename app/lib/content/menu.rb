@@ -56,6 +56,18 @@ module Content
         }
       end
       
+      # Handle space items
+      if item['space']
+        return {
+          space: true,
+          space_amount: item['space'] == true ? '1rem' : item['space'],
+          label: nil,
+          href: nil,
+          children: nil,
+          active: false
+        }
+      end
+      
       {
         label: item['label'],
         href: item['href'],
@@ -90,6 +102,16 @@ module Content
             children: nil,
             active: false
           }
+        # Handle space items
+        elsif link['space']
+          {
+            space: true,
+            space_amount: link['space'] == true ? '1rem' : link['space'],
+            label: nil,
+            href: nil,
+            children: nil,
+            active: false
+          }
         else
           {
             label: link['label']&.strip,
@@ -100,7 +122,7 @@ module Content
             active: false
           }
         end
-      end.select { |link| link[:separator] || (link[:label].present? && link[:href].present?) }
+      end.select { |link| link[:separator] || link[:space] || (link[:label].present? && link[:href].present?) }
     end
 
     def render_menu_item(item, current_path)

@@ -751,7 +751,6 @@
       .grid-item {
         position: relative;
         overflow: hidden;
-        background-color: var(--accent-color);
       }
       
       .grid-image {
@@ -955,6 +954,16 @@
         }
       }
 
+      /* Menu spacing styles */
+      .menu-space {
+        display: inline-block;
+      }
+      
+      .menu-space-mobile {
+        width: 100%;
+        display: block;
+      }
+
       /* Responsive adjustments */
       @media (max-width: 768px) {
         .single-image-container {
@@ -1044,6 +1053,10 @@
                     <%= item[:separator_char] || @menu.separator_character %>
                   </span>
                 </li>
+              <% elsif item[:space] %>
+                <!-- Space item - adds visual spacing -->
+                <li class="flex items-center" style="margin-left: <%= item[:space_amount] %>;">
+                </li>
               <% else %>
                 <li class="relative group mx-3">
                   <% if item[:children] %>
@@ -1129,6 +1142,10 @@
                   <span class="text-xs dynamic-text opacity-50">
                     <%= item[:separator_char] || @menu.separator_character %>
                   </span>
+                </div>
+              <% elsif item[:space] %>
+                <!-- Space in mobile menu - adds vertical spacing -->
+                <div style="height: <%= item[:space_amount] %>;">
                 </div>
               <% elsif item[:children] %>
                 <div class="border-b dynamic-border last:border-b-0">

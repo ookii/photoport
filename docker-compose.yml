@@ -1,6 +1,6 @@
 services:
   photoport:
-    image: photoport:1.0
+    image: photoport:1.1
     build: .
     # Ports configuration
     # Change "3000:3000" to "8080:3000" to access gallery at http://localhost:8080

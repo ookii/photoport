@@ -51,12 +51,14 @@ custom_menu_links:
   # Separator with custom character
   # - separator: "•"
   
-  # Test items for bold and separator features (uncomment to test)
+  # Test items for bold, separator, and space features (uncomment to test)
   # - separator: true
   # - label: "Featured"
   #   href: "/featured"
   #   bold: true
+  # - space: "2rem"
   # - separator: "•"
+  # - space: true
   # - label: "Contact"
   #   href: "/contact"
   #   external: true
@@ -68,6 +70,12 @@ custom_menu_links:
 #   href: "/path"             # URL path or full URL
 #   external: true            # Optional: set to true for external links
 #   bold: true               # Optional: set to true for bold text
+#
+# Menu Item Types:
+# 1. Regular menu link with label and href
+# 2. Separator: displays a visual separator character
+# 3. Space: adds custom spacing between menu items  
+# 4. Submenu: menu item with children array
 #
 # Hierarchical Menu (up to 3 levels supported):
 # - label: "Category"
@@ -81,6 +89,11 @@ custom_menu_links:
 # - separator: true           # Uses default separator character (|)
 # - separator: "•"           # Uses custom separator character
 # - separator: "-"           # Uses dash as separator
+#
+# Space Items:
+# - space: true              # Uses default space amount (1rem)
+# - space: "2rem"            # Uses custom space amount
+# - space: "30px"            # Can use any valid CSS measurement
 #
 # External Link Properties:
 # - external: true will automatically:
