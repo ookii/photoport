@@ -30,7 +30,7 @@ module Content
       return unless exists?
       
       @content = File.read(full_file_path)
-      @html_content = CommonMarker.render_html(@content, [:GITHUB_PRE_LANG], [:table, :strikethrough, :autolink, :tagfilter, :tasklist])
+      @html_content = CommonMarker.render_html(@content, [:GITHUB_PRE_LANG, :UNSAFE], [:table, :strikethrough, :autolink, :tasklist])
       @meta_description = extract_meta_description
     rescue => e
       Rails.logger.error "Error loading page content for #{slug}: #{e.message}"
