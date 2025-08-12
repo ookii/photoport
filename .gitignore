@@ -6,6 +6,7 @@
 /galleries/*
 /*.png
 /invalidate_cloudfront.sh
+/projectplan.md
 
 # Playwright
 node_modules/
