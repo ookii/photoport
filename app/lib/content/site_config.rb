@@ -2,7 +2,7 @@ require 'yaml'
 
 module Content
   class SiteConfig
-    attr_reader :site_name, :subheader, :page_title, :logo_path, :galleries, :pages, :menu, :styling, :default_gallery, :cdn, :security, :analytics, :custom_css, :footer
+    attr_reader :site_name, :subheader, :page_title, :logo_path, :galleries, :pages, :menu, :styling, :default_gallery, :default_page, :cdn, :security, :analytics, :custom_css, :footer, :titles
 
     def initialize
       load_config
@@ -37,6 +37,7 @@ module Content
       @page_title = styling_config['page_title'] || @site_name
       @logo_path = styling_config['site_logo_path']
       @default_gallery = styling_config['site_default_gallery']
+      @default_page = styling_config['site_default_page']&.strip&.presence
       @galleries = parse_galleries(pages_config['galleries'] || [])
       @pages = parse_pages(pages_config['pages'] || [])
       @menu = menu_config['menu'] || []
@@ -46,6 +47,7 @@ module Content
       @analytics = parse_analytics(site_config['analytics'] || {})
       @custom_css = load_custom_css
       @footer = parse_footer(styling_config['footer'] || {})
+      @titles = parse_titles(styling_config['titles'] || {})
     end
 
     def load_yaml_file(filename)
@@ -194,6 +196,13 @@ module Content
     def parse_footer(footer_config)
       {
         show_photoport_credit: footer_config['show_photoport_credit'] != false
+      }
+    end
+
+    def parse_titles(titles_config)
+      {
+        show_page_titles: titles_config['show_page_titles'] != false,
+        show_gallery_titles: titles_config['show_gallery_titles'] != false
       }
     end
   end

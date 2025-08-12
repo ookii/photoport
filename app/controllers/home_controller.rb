@@ -3,6 +3,24 @@ class HomeController < ApplicationController
   
   def index
     @site_config = Content::SiteConfig.instance
+    
+    # Check if a default page is configured
+    if @site_config.default_page
+      # Load the default page and redirect to it
+      begin
+        @default_page_obj = Content::Page.new(@site_config.default_page)
+        if @default_page_obj.exists?
+          redirect_to page_path(@site_config.default_page)
+          return
+        else
+          Rails.logger.warn "Default page '#{@site_config.default_page}' not found, falling back to gallery"
+        end
+      rescue => e
+        Rails.logger.warn "Error loading default page '#{@site_config.default_page}': #{e.message}, falling back to gallery"
+      end
+    end
+    
+    # Default gallery behavior (existing logic)
     @galleries = load_galleries_with_preview
     @default_gallery_obj = load_default_gallery_object if @site_config.default_gallery
     @default_gallery = load_default_gallery if @site_config.default_gallery
@@ -80,6 +98,10 @@ class HomeController < ApplicationController
   end
 
   def setup_home_renderer
+    @site_config = Content::SiteConfig.instance
+    
+    # Don't setup renderer if we have a default page configured
+    return if @site_config&.default_page
     return unless @site_config&.default_gallery
     
     begin

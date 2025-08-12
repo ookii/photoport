@@ -2,9 +2,11 @@
 
 <div class="content-wrapper" style="padding-top: 4rem; padding-bottom: 4rem;">
     <!-- Page Header -->
-    <div class="page-header text-center mb-8" style="padding-top: var(--header-top-padding);">
-      <h1 class="text-3xl dynamic-text font-bold mb-2"><%= @page.title %></h1>
-    </div>
+    <% if @site_config.titles[:show_page_titles] %>
+      <div class="page-header text-center mb-8" style="padding-top: var(--header-top-padding);">
+        <h1 class="text-3xl dynamic-text font-bold mb-2"><%= @page.title %></h1>
+      </div>
+    <% end %>
     
     <!-- Page Content -->
     <div class="page-content prose prose-lg max-w-none dynamic-text">

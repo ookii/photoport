@@ -7,6 +7,7 @@ site_subheader: "Travel photography"
 page_title: "Guy LeBlanc - Travel Photography"
 site_logo_path: "/assets/logo.svg"
 site_default_gallery: "responsive"
+site_default_page: ""  # Set to a page slug to use a custom page as homepage instead of gallery
 
 # Color scheme - Monochromatic palette inspired by professional photography portfolios
 colors:
@@ -41,6 +42,11 @@ layout:
   gallery_columns: "3"
   image_aspect_ratio: "4:3"
   header_top_padding: "2rem"  # Additional spacing from top of page to match joshtaylor.photo
+
+# Title display settings
+titles:
+  show_page_titles: true       # Show titles on custom pages
+  show_gallery_titles: true    # Show titles on gallery pages
 
 # Footer settings
 footer:

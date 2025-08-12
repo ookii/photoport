@@ -1,10 +1,12 @@
 <div class="single-image-gallery">
   <!-- Gallery Header -->
-  <div class="content-wrapper">
-    <div class="gallery-header">
-      <h1 class="text-3xl dynamic-text font-bold mb-2"><%= render_data[:gallery].title %></h1>
+  <% if @site_config.titles[:show_gallery_titles] %>
+    <div class="content-wrapper">
+      <div class="gallery-header">
+        <h1 class="text-3xl dynamic-text font-bold mb-2"><%= render_data[:gallery].title %></h1>
+      </div>
     </div>
-  </div>
+  <% end %>
   
   <!-- Full-width Image Container -->
   <div class="single-image-container" data-controller="swipe">
