@@ -344,12 +344,78 @@
         }
       }
 
+      // Text fitting controller for mobile headers
+      class TextFitController extends Controller {
+        static targets = ["container"]
+
+        connect() {
+          this.fitText()
+          window.addEventListener('resize', this.handleResize.bind(this))
+        }
+
+        disconnect() {
+          window.removeEventListener('resize', this.handleResize.bind(this))
+        }
+
+        handleResize() {
+          clearTimeout(this.resizeTimeout)
+          this.resizeTimeout = setTimeout(() => {
+            this.fitText()
+          }, 100)
+        }
+
+        fitText() {
+          // Only apply on mobile screens
+          if (window.innerWidth > 768) return
+
+          const container = document.getElementById('header-text-container')
+          const siteName = document.getElementById('site-name-text')
+          const subheader = document.getElementById('subheader-text')
+
+          if (!container || !siteName) return
+
+          const containerHeight = container.offsetHeight
+          const containerWidth = container.offsetWidth
+
+          // Fit site name
+          this.fitElementText(siteName, containerWidth, containerHeight * 0.6, 12, 32)
+
+          // Fit subheader if present
+          if (subheader) {
+            this.fitElementText(subheader, containerWidth, containerHeight * 0.4, 10, 18)
+          }
+        }
+
+        fitElementText(element, maxWidth, maxHeight, minSize, maxSize) {
+          let fontSize = maxSize
+          element.style.fontSize = fontSize + 'px'
+
+          // Binary search for optimal font size
+          let low = minSize
+          let high = maxSize
+
+          while (high - low > 0.5) {
+            fontSize = (low + high) / 2
+            element.style.fontSize = fontSize + 'px'
+
+            if (element.scrollHeight <= maxHeight && element.scrollWidth <= maxWidth) {
+              low = fontSize
+            } else {
+              high = fontSize
+            }
+          }
+
+          element.style.fontSize = low + 'px'
+        }
+      }
+
       // Start Stimulus and register controllers
       window.Stimulus = Application.start()
       window.Stimulus.register("menu", MenuController)
       window.Stimulus.register("fullscreen", FullscreenController)
       window.Stimulus.register("swipe", SwipeController)
       window.Stimulus.register("lazy-grid", LazyGridController)
+      window.Stimulus.register("textfit", TextFitController)
     </script>
     
     <% if @site_config.security[:disable_right_click] %>
@@ -436,10 +502,10 @@
         --header-top-padding: <%= @site_config.styling[:header_top_padding] %>;
       }
       .topbar-height { 
-        height: calc(80px + var(--header-top-padding)); 
+        min-height: calc(80px + var(--header-top-padding)); 
       }
       .content-top-padding { 
-        padding-top: calc(80px + var(--header-top-padding)); 
+        padding-top: calc(75px + var(--header-top-padding)); /* Fixed header height approach */
       }
       
       body {
@@ -492,7 +558,6 @@
       .content-wrapper {
         width: 90%;
         margin: 0 auto;
-        padding: 0 1rem;
       }
       
       .content-wrapper.responsive-content {
@@ -524,7 +589,13 @@
       
       .gallery-header {
         text-align: center;
-        padding: 2rem 0;
+        padding: 1rem 0;
+      }
+      
+      @media (max-width: 768px) {
+        .gallery-header {
+          padding: 0;
+        }
       }
       
       .single-image-container {
@@ -1020,22 +1091,26 @@
 
   <body class="min-h-screen overflow-x-hidden" data-controller="fullscreen">
     <!-- Fixed Top Bar -->
-    <header class="fixed top-0 left-0 right-0 z-50 dynamic-header-bg bg-opacity-90 backdrop-blur-sm">
-      <div class="flex justify-between items-center px-6 topbar-height" style="padding-top: calc(1rem + var(--header-top-padding)); padding-bottom: 1rem;">
+    <header class="fixed top-0 left-0 right-0 z-50 dynamic-header-bg bg-opacity-90 backdrop-blur-sm" data-controller="textfit">
+      <div class="flex justify-between items-start px-6 py-4" style="padding-top: 0.5rem; height: calc(90px + var(--header-top-padding)); max-height: calc(90px + var(--header-top-padding));">
         <!-- Left: Site Name & Subheader -->
-        <div class="flex flex-col">
+        <div class="flex flex-col flex-1 min-w-0 pr-4" style="max-width: calc(100vw - 120px); max-height: calc(80px + var(--header-top-padding)); overflow: hidden;" id="header-text-container">
           <div class="flex items-center space-x-3">
-            <%= link_to root_path, class: "site-name dynamic-link hover:opacity-75 transition-colors" do %>
+            <%= link_to root_path, class: "site-name dynamic-link hover:opacity-75 transition-colors", 
+                style: "display: block; word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; max-width: 100%; line-height: 1.1;", 
+                id: "site-name-text" do %>
               <%= @site_config.site_name %>
             <% end %>
           </div>
           <% if @site_config.subheader.present? %>
-            <p class="site-subheader dynamic-text opacity-75 mt-1"><%= @site_config.subheader %></p>
+            <p class="site-subheader dynamic-text opacity-75 mt-1" 
+               style="display: block; word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; max-width: 100%; line-height: 1.2;" 
+               id="subheader-text"><%= @site_config.subheader %></p>
           <% end %>
         </div>
 
         <!-- Right: Navigation Menu -->
-        <nav data-controller="menu" class="relative">
+        <nav data-controller="menu" class="relative flex-shrink-0 w-auto">
           <!-- Mobile Menu Button -->
           <button data-action="click->menu#toggleMobile" 
                   data-menu-target="mobileButton"
