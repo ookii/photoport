@@ -286,6 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
       container.style.width = containerWidth + 'px';
       
       let currentIndex = 0;
+      let previousRowHeight = null;
       
       while (currentIndex < imageData.length) {
         let bestRow = [imageData[currentIndex]]; // Start with at least one image
@@ -309,11 +310,21 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         }
         
+        // Check if this is the final row and it's a single image
+        const isLastRow = currentIndex + bestRow.length >= imageData.length;
+        const isSingleImage = bestRow.length === 1;
+        
         // Calculate optimal height and widths for this row
         const totalSpacing = (bestRow.length - 1) * spacing;
         const availableWidth = containerWidth - totalSpacing;
         const totalRatio = bestRow.reduce((sum, img) => sum + img.ratio, 0);
-        const optimalHeight = Math.max(minHeight, availableWidth / totalRatio);
+        let optimalHeight = Math.max(minHeight, availableWidth / totalRatio);
+        
+        // If this is the last row with a single image and we have a previous row height,
+        // use the previous row height to prevent oversized portrait images
+        if (isLastRow && isSingleImage && previousRowHeight !== null) {
+          optimalHeight = previousRowHeight;
+        }
         
         // Create row element with fixed width and fade-in effect
         const rowElement = document.createElement('div');
@@ -352,6 +363,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         container.appendChild(rowElement);
+        
+        // Store this row's height for potential use by next row
+        previousRowHeight = optimalHeight;
         
         // Trigger fade-in after a brief delay
         setTimeout(() => {
