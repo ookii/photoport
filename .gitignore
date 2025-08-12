@@ -5,6 +5,7 @@
 /.claude/
 /galleries/*
 /*.png
+/invalidate_cloudfront.sh
 
 # Playwright
 node_modules/
