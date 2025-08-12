@@ -20,8 +20,8 @@ WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 COPY package*.json ./
 
-# Install Ruby gems (with native extensions compiled)
-RUN bundle install --jobs 4
+# Install Ruby gems (with native extensions compiled) - exclude test gems only
+RUN bundle install --jobs 4 --without test
 
 # Install Node dependencies
 RUN npm ci --only=production
