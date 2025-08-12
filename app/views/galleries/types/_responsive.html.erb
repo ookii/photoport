@@ -376,10 +376,10 @@ document.addEventListener('DOMContentLoaded', function() {
   window.addEventListener('resize', function() {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-      // Only re-arrange on resize if we don't already have arranged content
-      if (!container.querySelector('.responsive-row')) {
-        arrangeResponsiveGallery();
-      }
+      // Clear existing rows and re-arrange on window resize
+      container.querySelectorAll('.responsive-row, .mobile-row').forEach(row => row.remove());
+      container.dataset.processing = 'false'; // Reset processing flag
+      arrangeResponsiveGallery();
     }, 250);
   });
 });
