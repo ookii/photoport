@@ -28,6 +28,27 @@ class ImagesController < ApplicationController
     send_image_file(file_path, filename)
   end
 
+  def show_page_image
+    page_slug = params[:page_slug]
+    filename = params[:filename]
+
+    unless valid_slug?(page_slug)
+      render_not_found and return
+    end
+
+    unless valid_filename?(filename)
+      render_not_found and return
+    end
+
+    file_path = build_secure_page_image_path(page_slug, filename)
+    
+    unless file_path && File.exist?(file_path)
+      render_not_found and return
+    end
+
+    send_image_file(file_path, filename)
+  end
+
   private
 
   def valid_slug?(slug)
@@ -52,6 +73,38 @@ class ImagesController < ApplicationController
     return nil unless resolved_path
     
     unless resolved_path.to_s.start_with?(galleries_root.realpath.to_s)
+      return nil
+    end
+    
+    resolved_path
+  end
+
+  def build_secure_page_image_path(page_slug, filename)
+    pages_root = Rails.root.join('pages')
+    
+    # Try direct image in page directory first: pages/about/image.jpg
+    page_path = pages_root.join(page_slug)
+    file_path = page_path.join(filename)
+    
+    if File.exist?(file_path)
+      resolved_path = file_path.realpath rescue nil
+      return nil unless resolved_path
+      
+      unless resolved_path.to_s.start_with?(pages_root.realpath.to_s)
+        return nil
+      end
+      
+      return resolved_path
+    end
+    
+    # Try images subdirectory: pages/about/images/image.jpg
+    images_path = page_path.join('images')
+    file_path = images_path.join(filename)
+    
+    resolved_path = file_path.realpath rescue nil
+    return nil unless resolved_path
+    
+    unless resolved_path.to_s.start_with?(pages_root.realpath.to_s)
       return nil
     end
     

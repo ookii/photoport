@@ -23,6 +23,14 @@ Rails.application.routes.draw do
         filename: /[^\/]+/
       }
 
+  get "pages/:page_slug/images/:filename",
+      to: "images#show_page_image",
+      as: :page_image,
+      constraints: { 
+        page_slug: /[a-z0-9\-_]+/,
+        filename: /[^\/]+/
+      }
+
   # Error pages
   match "/404", to: "errors#not_found", via: :all
   match "/500", to: "errors#internal_server_error", via: :all

@@ -27,6 +27,16 @@ I believe the best camera is the one you have with you. While I use professional
 
 Feel free to reach out if you'd like to collaborate, purchase prints, or just say hello! I'm always excited to connect with fellow photography enthusiasts and travelers.
 
+## Sample Images
+
+Here are some test images to demonstrate the new image support for custom pages:
+
+### From images subdirectory:
+<img src="/pages/about/images/test-image.webp" alt="Test image from images subdirectory" style="max-width: 500px; border-radius: 8px;">
+
+### From page directory:
+<img src="/pages/about/direct-test.webp" alt="Test image from page directory" style="max-width: 500px; border-radius: 8px;">
+
 ---
 
 *This page was created with PhotoPort's custom pages feature. You can edit this content by modifying the `pages/about.md` file.*
