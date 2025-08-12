@@ -6,11 +6,15 @@ class HomeController < ApplicationController
     
     # Check if a default page is configured
     if @site_config.default_page
-      # Load the default page and redirect to it
+      # Load the default page and render it directly
       begin
         @default_page_obj = Content::Page.new(@site_config.default_page)
         if @default_page_obj.exists?
-          redirect_to page_path(@site_config.default_page)
+          @page = @default_page_obj
+          @page_title = "#{@page.title} - #{@site_config.page_title}"
+          @page_description = @page.meta_description
+          
+          render 'pages/show'
           return
         else
           Rails.logger.warn "Default page '#{@site_config.default_page}' not found, falling back to gallery"
