@@ -480,6 +480,7 @@
         --text-color: <%= @site_config.styling[:text_color] %>;
         --link-color: <%= @site_config.styling[:link_color] %>;
         --hover-link-color: <%= @site_config.styling[:hover_link_color] %>;
+        --visited-link-color: <%= @site_config.styling[:visited_link_color] %>;
         --accent-color: <%= @site_config.styling[:accent_color] %>;
         --header-bg-color: <%= @site_config.styling[:header_background_color] %>;
         --secondary-text-color: <%= @site_config.styling[:secondary_text_color] %>;
@@ -530,14 +531,21 @@
         color: var(--secondary-text-color) !important;
       }
       
-      .dynamic-link {
+      .dynamic-link,
+      .dynamic-text.dynamic-link {
         color: var(--link-color) !important;
         text-decoration: none;
         transition: color 0.2s ease;
       }
       
-      .dynamic-link:hover {
+      .dynamic-link:hover,
+      .dynamic-text.dynamic-link:hover {
         color: var(--hover-link-color) !important;
+      }
+      
+      .dynamic-link:visited,
+      .dynamic-text.dynamic-link:visited {
+        color: var(--visited-link-color) !important;
       }
       
       .dynamic-accent {
@@ -1176,7 +1184,7 @@
                                     </div>
                                   <% else %>
                                     <%= link_to grandchild[:href], 
-                                        class: "block px-4 py-2 dynamic-text hover:opacity-75 transition-colors #{grandchild[:active] ? 'dynamic-link' : ''} #{'font-bold' if grandchild[:bold]}" do %>
+                                        class: "block px-4 py-2 dynamic-text dynamic-link hover:opacity-75 transition-colors #{'font-bold' if grandchild[:bold]}" do %>
                                       <%= grandchild[:label] %>
                                     <% end %>
                                   <% end %>
@@ -1187,7 +1195,7 @@
                           <% else %>
                             <!-- Second level menu item (leaf) -->
                             <%= link_to child[:href], 
-                                class: "block px-4 py-2 dynamic-text hover:opacity-75 transition-colors #{child[:active] ? 'dynamic-link' : ''} #{'font-bold' if child[:bold]}" do %>
+                                class: "block px-4 py-2 dynamic-text dynamic-link hover:opacity-75 transition-colors #{'font-bold' if child[:bold]}" do %>
                               <%= child[:label] %>
                             <% end %>
                           <% end %>
@@ -1196,7 +1204,7 @@
                     </ul>
                   <% else %>
                     <%= link_to item[:href], 
-                        class: "block px-3 py-2 dynamic-text hover:opacity-75 transition-colors #{item[:active] ? 'dynamic-link' : ''} #{'font-bold' if item[:bold]}",
+                        class: "block px-3 py-2 dynamic-text dynamic-link hover:opacity-75 transition-colors #{'font-bold' if item[:bold]}",
                         **{ item[:external] ? :target : nil => item[:external] ? '_blank' : nil,
                             item[:external] ? :rel : nil => item[:external] ? 'noopener noreferrer' : nil }.compact do %>
                                           <%= item[:label] %>
@@ -1249,7 +1257,7 @@
                                 <hr class="mx-8 my-2 dynamic-border border-opacity-30">
                               <% else %>
                                 <%= link_to grandchild[:href], 
-                                    class: "block px-12 py-2 dynamic-text hover:opacity-75 transition-colors #{'dynamic-link' if grandchild[:active]} #{'font-bold' if grandchild[:bold]}" do %>
+                                    class: "block px-12 py-2 dynamic-text dynamic-link hover:opacity-75 transition-colors #{'font-bold' if grandchild[:bold]}" do %>
                                   <%= grandchild[:label] %>
                                 <% end %>
                               <% end %>
@@ -1259,7 +1267,7 @@
                       <% else %>
                         <!-- Second level mobile menu item (leaf) -->
                         <%= link_to child[:href], 
-                            class: "block px-8 py-2 dynamic-text hover:opacity-75 transition-colors #{'dynamic-link' if child[:active]} #{'font-bold' if child[:bold]}" do %>
+                            class: "block px-8 py-2 dynamic-text dynamic-link hover:opacity-75 transition-colors #{'font-bold' if child[:bold]}" do %>
                           <%= child[:label] %>
                         <% end %>
                       <% end %>
@@ -1268,7 +1276,7 @@
                 </div>
               <% else %>
                 <%= link_to item[:href], 
-                    class: "block px-4 py-3 dynamic-text hover:opacity-75 transition-colors #{'dynamic-link' if item[:active]} #{'font-bold' if item[:bold]}",
+                    class: "block px-4 py-3 dynamic-text dynamic-link hover:opacity-75 transition-colors #{'font-bold' if item[:bold]}",
                     **{ item[:external] ? :target : nil => item[:external] ? '_blank' : nil,
                         item[:external] ? :rel : nil => item[:external] ? 'noopener noreferrer' : nil }.compact do %>
                   <%= item[:label] %>

@@ -100,6 +100,7 @@ module Content
         text_color: colors['text_color'] || '#1a1a1a',
         link_color: colors['link_color'] || '#404040',
         hover_link_color: colors['hover_link_color'] || '#000000',
+        visited_link_color: colors['visited_link_color'] || '#666666',
         accent_color: colors['accent_color'] || '#f5f5f5',
         header_background_color: colors['header_background_color'] || '#ffffff',
         secondary_text_color: colors['secondary_text_color'] || '#666666',
