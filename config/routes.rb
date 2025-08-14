@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   # Contact form submission
   post "contact/submit", to: "contact#submit", as: :contact_submit
 
+  # Favicon
+  get "/favicon.ico", to: "application#favicon"
+
   # Page routes - check for pages first
   get ":slug", to: "pages#show", as: :page,
       constraints: lambda { |request|

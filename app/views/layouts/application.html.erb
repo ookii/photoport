@@ -9,6 +9,17 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     
+    <!-- Favicon -->
+    <% favicon_files = [
+         { path: Rails.root.join('config', 'content', 'favicon.ico'), type: 'image/x-icon' },
+         { path: Rails.root.join('config', 'content', 'favicon.png'), type: 'image/png' },
+         { path: Rails.root.join('config', 'content', 'favicon.svg'), type: 'image/svg+xml' }
+       ] %>
+    <% favicon_file = favicon_files.find { |f| File.exist?(f[:path]) } %>
+    <% if favicon_file %>
+      <link rel="icon" type="<%= favicon_file[:type] %>" href="/favicon.ico">
+    <% end %>
+    
     <% if @site_config.analytics[:google_analytics_id].present? %>
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=<%= @site_config.analytics[:google_analytics_id] %>"></script>

@@ -5,7 +5,8 @@
 site_name: "Guy LeBlanc"
 site_subheader: "Travel photography"
 page_title: "Guy LeBlanc - Travel Photography"
-site_logo_path: "/assets/logo.svg"
+site_logo_path: "/config/content/logo.svg"  # Logo served from persistent config/content directory
+# Favicon: Place favicon.ico, favicon.png, or favicon.svg in config/content/ (automatic detection)
 site_default_gallery: "responsive"
 site_default_page: ""  # Set to a page slug to use a custom page as homepage instead of gallery
 
