@@ -9,6 +9,7 @@ Custom pages allow you to add static content pages to your PhotoPort site beyond
 - **Markdown formatting** with GitHub Flavored Markdown features
 - **Raw HTML** for advanced layouts and styling
 - **Images** served directly from the pages directory
+- **Contact forms** for user interaction and email collection
 - **Responsive styling** that matches your site theme
 - **SEO optimization** with automatic meta descriptions
 
@@ -200,6 +201,45 @@ The system automatically tries both locations when serving images:
 2. **Then**: `pages/{slug}/images/{filename}` (subdirectory)
 
 This means you can mix both approaches or migrate between them without breaking links.
+
+## Adding Contact Forms
+
+PhotoPort supports adding interactive contact forms to any custom page. Forms are processed server-side and delivered via email using Amazon SES.
+
+### Quick Contact Form Example
+
+```markdown
+# Contact Us
+
+Get in touch using the form below.
+
+{{contact-form}}
+name|text|required|Full Name
+email|email|required|Email Address
+message|textarea|required|Your Message|rows:5
+submit_text|Send Message
+{{/contact-form}}
+
+We'll respond within 24 hours!
+```
+
+### Form Features
+
+- **AJAX submission** without page reload
+- **Built-in validation** for required fields and email format
+- **Spam protection** with honeypot fields and optional hCaptcha
+- **Responsive design** that matches your site theme
+- **Email delivery** via Amazon SES
+
+### Configuration Required
+
+To use contact forms, you need to:
+
+1. Set up an AWS account and configure SES
+2. Configure email settings in `config/content/contact.yml`
+3. Set AWS credentials as environment variables
+
+**For complete contact form documentation, see [contactforms.md](contactforms.md)**
 
 ## Complete Example
 

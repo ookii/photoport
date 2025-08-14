@@ -1,8 +1,9 @@
 require 'commonmarker'
+require_relative 'contact_form_parser'
 
 module Content
   class Page
-    attr_reader :slug, :title, :file_path, :content, :html_content, :meta_description
+    attr_reader :slug, :title, :file_path, :content, :html_content, :meta_description, :contact_forms
 
     def initialize(slug)
       @slug = slug
@@ -30,13 +31,25 @@ module Content
       return unless exists?
       
       @content = File.read(full_file_path)
-      @html_content = CommonMarker.render_html(@content, [:GITHUB_PRE_LANG, :UNSAFE], [:table, :strikethrough, :autolink, :tasklist])
+      
+      # Parse and process contact forms
+      form_parser = ContactFormParser.parse(@content.dup)
+      @contact_forms = form_parser
+      processed_content = form_parser.processed_content
+      
+      @html_content = CommonMarker.render_html(processed_content, [:GITHUB_PRE_LANG, :UNSAFE], [:table, :strikethrough, :autolink, :tasklist])
       @meta_description = extract_meta_description
+      
+      # Log any form parsing errors
+      if form_parser.errors.any?
+        Rails.logger.warn "Contact form parsing errors for page #{slug}: #{form_parser.errors.join(', ')}"
+      end
     rescue => e
       Rails.logger.error "Error loading page content for #{slug}: #{e.message}"
       @content = "Error loading page content."
       @html_content = "<p>Error loading page content.</p>"
       @meta_description = ""
+      @contact_forms = nil
     end
 
     def full_file_path

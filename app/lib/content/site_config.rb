@@ -2,7 +2,7 @@ require 'yaml'
 
 module Content
   class SiteConfig
-    attr_reader :site_name, :subheader, :page_title, :logo_path, :galleries, :pages, :menu, :styling, :default_gallery, :default_page, :cdn, :security, :analytics, :custom_css, :footer, :titles
+    attr_reader :site_name, :subheader, :page_title, :logo_path, :galleries, :pages, :menu, :styling, :default_gallery, :default_page, :cdn, :security, :analytics, :custom_css, :footer, :titles, :contact
 
     def initialize
       load_config
@@ -29,6 +29,7 @@ module Content
       menu_config = load_yaml_file('menu.yml')
       styling_config = load_yaml_file('styling.yml')
       site_config = load_yaml_file('site.yml')
+      contact_config = load_yaml_file('contact.yml')
       # Fallback to cdn.yml for backward compatibility during migration
       cdn_config = site_config['cdn'] || load_yaml_file('cdn.yml')
 
@@ -48,6 +49,7 @@ module Content
       @custom_css = load_custom_css
       @footer = parse_footer(styling_config['footer'] || {})
       @titles = parse_titles(styling_config['titles'] || {})
+      @contact = parse_contact(contact_config)
     end
 
     def load_yaml_file(filename)
@@ -204,6 +206,60 @@ module Content
       {
         show_page_titles: titles_config['show_page_titles'] != false,
         show_gallery_titles: titles_config['show_gallery_titles'] != false
+      }
+    end
+
+    def parse_contact(contact_config)
+      return default_contact_config if contact_config.nil? || contact_config.empty?
+      
+      aws_ses = contact_config['aws_ses'] || {}
+      forms = contact_config['forms'] || {}
+      hcaptcha = contact_config['hcaptcha'] || {}
+      
+      {
+        aws_ses: {
+          region: aws_ses['region'] || 'us-east-1',
+          access_key_id: ENV['AWS_ACCESS_KEY_ID'] || aws_ses['access_key_id'] || '',
+          secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'] || aws_ses['secret_access_key'] || '',
+          from_email: aws_ses['from_email'] || '',
+          from_name: aws_ses['from_name'] || '',
+          to_email: aws_ses['to_email'] || ''
+        },
+        forms: {
+          default_subject: forms['default_subject'] || 'Contact Form Submission',
+          success_message: forms['success_message'] || "Thank you for your message! We'll get back to you soon.",
+          error_message: forms['error_message'] || 'There was an error sending your message. Please try again.',
+          honeypot_field: forms['honeypot_field'] || 'website'
+        },
+        hcaptcha: {
+          enabled: hcaptcha['enabled'] || false,
+          site_key: ENV['HCAPTCHA_SITE_KEY'] || hcaptcha['site_key'] || '',
+          secret_key: ENV['HCAPTCHA_SECRET_KEY'] || hcaptcha['secret_key'] || ''
+        }
+      }
+    end
+
+    def default_contact_config
+      {
+        aws_ses: {
+          region: 'us-east-1',
+          access_key_id: ENV['AWS_ACCESS_KEY_ID'] || '',
+          secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'] || '',
+          from_email: '',
+          from_name: '',
+          to_email: ''
+        },
+        forms: {
+          default_subject: 'Contact Form Submission',
+          success_message: "Thank you for your message! We'll get back to you soon.",
+          error_message: 'There was an error sending your message. Please try again.',
+          honeypot_field: 'website'
+        },
+        hcaptcha: {
+          enabled: false,
+          site_key: ENV['HCAPTCHA_SITE_KEY'] || '',
+          secret_key: ENV['HCAPTCHA_SECRET_KEY'] || ''
+        }
       }
     end
   end

@@ -38,6 +38,9 @@ pages:
   - slug: "about"
     title: "About Me"
     file: "pages/about.md"
+  - slug: "contact"
+    title: "Contact Us"
+    file: "pages/contact.md"
 
 # Gallery Configuration Notes:
 #

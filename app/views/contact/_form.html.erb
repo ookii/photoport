@@ -1,0 +1,138 @@
+<div class="contact-form-container" data-controller="contact-form">
+  <%= form_with url: contact_submit_path, method: :post, local: false, 
+      html: { 
+        class: "contact-form dynamic-bg", 
+        id: "contact_form_#{form_id}",
+        'data-contact-form-target': 'form',
+        'data-action': 'submit->contact-form#submit'
+      } do |form| %>
+    
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <%= hidden_field_tag :form_id, form_id %>
+    
+    <!-- Honeypot field for spam protection (hidden from users) -->
+    <%= text_field_tag Content::SiteConfig.instance.contact[:forms][:honeypot_field], '', 
+        style: 'position: absolute; left: -9999px; opacity: 0;', 
+        tabindex: '-1', 
+        autocomplete: 'off' %>
+    
+    <% fields.each do |field| %>
+      <div class="form-field mb-4">
+        <%= label_tag "contact_#{field[:name]}", class: "form-label dynamic-text" do %>
+          <%= field[:label] %>
+          <% if field[:required] %>
+            <span class="required-indicator" style="color: #e53e3e;">*</span>
+          <% end %>
+        <% end %>
+        
+        <% if field[:type] == 'textarea' %>
+          <%= text_area_tag "contact_#{field[:name]}", '', 
+              rows: field[:options][:rows] || 4,
+              class: "form-textarea w-full px-3 py-2 dynamic-border border rounded-lg dynamic-bg dynamic-text transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+              required: field[:required],
+              'data-contact-form-target': 'field' %>
+        <% elsif field[:type] == 'email' %>
+          <%= email_field_tag "contact_#{field[:name]}", '', 
+              class: "form-input w-full px-3 py-2 dynamic-border border rounded-lg dynamic-bg dynamic-text transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+              required: field[:required],
+              'data-contact-form-target': 'field' %>
+        <% else %>
+          <%= text_field_tag "contact_#{field[:name]}", '', 
+              class: "form-input w-full px-3 py-2 dynamic-border border rounded-lg dynamic-bg dynamic-text transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+              required: field[:required],
+              'data-contact-form-target': 'field' %>
+        <% end %>
+      </div>
+    <% end %>
+    
+    <% if Content::SiteConfig.instance.contact[:hcaptcha][:enabled] %>
+      <div class="form-field mb-4">
+        <div class="h-captcha" 
+             data-sitekey="<%= Content::SiteConfig.instance.contact[:hcaptcha][:site_key] %>"
+             data-contact-form-target="hcaptcha"></div>
+      </div>
+    <% end %>
+    
+    <div class="form-actions">
+      <%= submit_tag submit_text, 
+          class: "contact-submit-btn px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+          'data-contact-form-target': 'submitButton' %>
+    </div>
+    
+    <!-- Status messages -->
+    <div class="form-messages mt-4">
+      <div class="success-message hidden px-4 py-3 bg-green-100 border border-green-400 text-green-700 rounded-lg" 
+           data-contact-form-target="successMessage"></div>
+      <div class="error-message hidden px-4 py-3 bg-red-100 border border-red-400 text-red-700 rounded-lg" 
+           data-contact-form-target="errorMessage"></div>
+    </div>
+  <% end %>
+</div>
+
+<style>
+  .contact-form-container {
+    max-width: 600px;
+    margin: 2rem 0;
+  }
+  
+  .form-label {
+    display: block;
+    font-weight: var(--font-weight-medium);
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .required-indicator {
+    font-weight: bold;
+  }
+  
+  .form-input,
+  .form-textarea {
+    font-family: var(--primary-font);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  .form-input:focus,
+  .form-textarea:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  .contact-submit-btn {
+    cursor: pointer;
+    font-family: var(--primary-font);
+  }
+  
+  .contact-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .form-messages {
+    padding-top: 20px;
+  }
+  
+  .form-messages .success-message {
+    background-color: #f0f9ff;
+    border-color: #22c55e;
+    color: #15803d;
+  }
+  
+  .form-messages .error-message {
+    background-color: #fef2f2;
+    border-color: #ef4444;
+    color: #dc2626;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .contact-form-container {
+      margin: 1rem 0;
+    }
+    
+    .form-input,
+    .form-textarea {
+      font-size: 16px; /* Prevents zoom on iOS */
+    }
+  }
+</style>

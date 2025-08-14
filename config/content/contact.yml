@@ -1,0 +1,41 @@
+# Contact Forms Configuration
+# This file controls contact form behavior and email settings
+
+aws_ses:
+  region: "us-east-1"  # AWS region for SES (e.g., us-east-1, us-west-2, eu-west-1)
+  access_key_id: ""  # Set via environment variable AWS_ACCESS_KEY_ID
+  secret_access_key: ""  # Set via environment variable AWS_SECRET_ACCESS_KEY
+  from_email: "noreply@yoursite.com"  # Set your verified sending email address
+  from_name: "Your Website"   # Set your sending name
+  to_email: "contact@yoursite.com"    # Set destination email address
+
+forms:
+  default_subject: "Website Contact Form Submission"
+  success_message: "Thank you for your message! We'll get back to you soon."
+  error_message: "There was an error sending your message. Please try again."
+  honeypot_field: "website"  # Hidden field name for spam protection
+
+# hCaptcha Configuration
+hcaptcha:
+  enabled: false  # Set to true to enable hCaptcha
+  site_key: ""    # Set via environment variable HCAPTCHA_SITE_KEY
+  secret_key: ""  # Set via environment variable HCAPTCHA_SECRET_KEY
+
+# To configure AWS SES:
+# 1. Sign up for an AWS account at https://aws.amazon.com/
+# 2. Enable Amazon SES in your chosen AWS region
+# 3. Verify your sender email address or domain in the SES console
+# 4. Create IAM credentials with SES sending permissions
+# 5. Set the environment variables:
+#    export AWS_ACCESS_KEY_ID=your_access_key_here
+#    export AWS_SECRET_ACCESS_KEY=your_secret_key_here
+# 6. Update the region and email addresses above to match your setup
+# 7. If using SES sandbox, verify recipient email addresses too
+
+# To configure hCaptcha:
+# 1. Sign up for an hCaptcha account at https://www.hcaptcha.com/
+# 2. Create a new site and get your site key and secret key
+# 3. Set the environment variables:
+#    export HCAPTCHA_SITE_KEY=your_site_key_here
+#    export HCAPTCHA_SECRET_KEY=your_secret_key_here
+# 4. Set enabled: true in the hcaptcha section above

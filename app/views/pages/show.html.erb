@@ -10,7 +10,19 @@
     
     <!-- Page Content -->
     <div class="page-content prose prose-lg max-w-none dynamic-text">
-      <%= @page.html_content.html_safe %>
+      <% if @page.contact_forms&.has_forms? %>
+        <% 
+          # Replace the form placeholder with the actual form HTML
+          form_html = render 'contact/form', 
+                           fields: @page.contact_forms.fields, 
+                           submit_text: @page.contact_forms.submit_text, 
+                           form_id: @page.contact_forms.form_id
+          content_with_form = @page.html_content.gsub("<!-- CONTACT_FORM_PLACEHOLDER_#{@page.contact_forms.form_id} -->", form_html)
+        %>
+        <%= content_with_form.html_safe %>
+      <% else %>
+        <%= @page.html_content.html_safe %>
+      <% end %>
     </div>
 </div>
 
